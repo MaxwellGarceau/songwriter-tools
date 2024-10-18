@@ -1,11 +1,12 @@
 const defaultConfigs = require('@wordpress/scripts/config/webpack.config');
+const path = require('path');
 
 // Two configs due to experimental features
-defaultConfigs.forEach(config => ({
+const newConfigs = defaultConfigs.map(config => ({
     ...config,
     entry: {
-		'upload-song': './blocks/upload-song/src',
-	},
+      'upload-song': './blocks/upload-song/src',
+    },
 }));
 
-module.exports = defaultConfigs;
+module.exports = newConfigs;
