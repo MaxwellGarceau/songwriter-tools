@@ -1,56 +1,61 @@
 <?php
 /**
- * PHP file to use when rendering the block type on the server to show on the front end.
+ * Template for rendering the "Upload Song" block on the front end.
  *
- * The following variables are exposed to the file:
- *     $attributes (array): The block attributes.
- *     $content (string): The block default content.
- *     $block (WP_Block): The block instance.
- *
- * @see https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/block-api/block-metadata.md#render
+ * Variables available to the file:
+ * - $attributes (array): The block attributes.
+ * - $content (string): The block content.
+ * - $block (WP_Block): The block instance.
  */
 
-// Generates a unique id for aria-controls.
-$unique_id = wp_unique_id( 'p-' );
+// Check if the user is logged in, if not return a message.
+if ( ! is_user_logged_in() ) {
+	echo '<p>' . esc_html__( 'You must be logged in to upload a song.', 'songwriter-tools' ) . '</p>';
+	return;
+}
 
-// Adds the global state.
+// Generate a unique ID for the block.
+$unique_id = wp_unique_id( 'song-upload-' );
+
+// Enqueue global state using the WordPress Interactivity API.
 wp_interactivity_state(
-	'songwriter-tools',
+	'song-upload-state',
 	array(
-		'isDark'    => false,
-		'darkText'  => esc_html__( 'Switch to Light', 'songwriter-tools' ),
-		'lightText' => esc_html__( 'Switch to Dark', 'songwriter-tools' ),
-		'themeText'	=> esc_html__( 'Switch to Dark', 'songwriter-tools' ),
+		'uploadStatus'  => false,
+		'statusMessage' => '',
+		'allowedTypes'  => array( 'audio/mpeg', 'audio/wav' ),
 	)
 );
+
 ?>
 
-<div
-	<?php echo get_block_wrapper_attributes(); ?>
-	data-wp-interactive="songwriter-tools"
-	<?php echo wp_interactivity_data_wp_context( array( 'isOpen' => false ) ); ?>
-	data-wp-watch="callbacks.logIsOpen"
-	data-wp-class--dark-theme="state.isDark"
+<div 
+	<?php echo get_block_wrapper_attributes(); ?> 
+	data-wp-interactive="song-upload-state"
+	data-wp-context="{ fileSelected: false, fileUrl: '', title: '' }"
 >
-	<button
-		data-wp-on--click="actions.toggleTheme"
-		data-wp-text="state.themeText"
-	></button>
+	<h3><?php echo esc_html__( 'Upload Your Song', 'songwriter-tools' ); ?></h3>
 
-	<button
-		data-wp-on--click="actions.toggleOpen"
-		data-wp-bind--aria-expanded="context.isOpen"
-		aria-controls="<?php echo esc_attr( $unique_id ); ?>"
-	>
-		<?php esc_html_e( 'Toggle', 'songwriter-tools' ); ?>
-	</button>
+	<form id="song-upload-form" data-wp-on--submit="actions.uploadSong">
+		<input 
+			type="file" 
+			id="song-file" 
+			accept="audio/*" 
+			required 
+			data-wp-on--change="actions.handleFileSelect" 
+		/>
+		<input 
+			type="text" 
+			id="song-title" 
+			placeholder="<?php esc_attr_e( 'Song Title', 'songwriter-tools' ); ?>" 
+			required 
+			data-wp-bind--value="context.title" 
+		/>
 
-	<p
-		id="<?php echo esc_attr( $unique_id ); ?>"
-		data-wp-bind--hidden="!context.isOpen"
-	>
-		<?php
-			esc_html_e( 'Upload Song - hello from an interactive block!', 'songwriter-tools' );
-		?>
-	</p>
+		<button type="submit" class="button button-primary">
+			<?php esc_html_e( 'Upload Song', 'songwriter-tools' ); ?>
+		</button>
+	</form>
+
+	<p id="song-upload-message" data-wp-bind--text="state.statusMessage"></p>
 </div>
