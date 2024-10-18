@@ -15,6 +15,11 @@
  */
 
 use Max_Garceau\Songwriter_Tools\Songwriter_Tools;
+use Max_Garceau\Songwriter_Tools\Endpoints\Api;
+use Max_Garceau\Songwriter_Tools\Endpoints\Auth;
+use Max_Garceau\Songwriter_Tools\Endpoints\Validation;
+use Max_Garceau\Songwriter_Tools\Endpoints\Controllers\Song_Controller;
+use Max_Garceau\Songwriter_Tools\Includes\Register_Songs_CPT;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -27,7 +32,10 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
-$songwriter_tools = new Songwriter_Tools();
+$songwriter_tools = new Songwriter_Tools(
+    new Register_Songs_CPT(),
+    new Api( new Auth(), new Validation(), new Song_Controller() )
+);
 $songwriter_tools->init();
 
 /**
