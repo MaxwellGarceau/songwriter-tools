@@ -7,13 +7,13 @@ type ServerState = {
 	state: {
 		title: string;
 		fileSelected: boolean;
-		fileUrl: string;
+		fileBlob: string;
 	};
 };
 
 type Context = {
 	fileSelected: boolean;
-	fileUrl: string;
+	fileBlob: string;
 };
 
 
@@ -21,12 +21,11 @@ const storeDef = store( storeNamespace, {
 	state: {
 		title: '',
 		fileSelected: false,
-		fileUrl: '',
+		fileBlob: '',
 	},
 	 actions: {
 		handleFileSelect,
 		uploadSong,
-		test: () => console.log('test')
 	 },
 	//  callbacks: {
 	// 	//
@@ -35,11 +34,12 @@ const storeDef = store( storeNamespace, {
 
 // This function will handle file validation and selection.
 function handleFileSelect(event: Event): void {
-	console.log('handleFileSelect');
-
 	const context = getContext< Context >();
 
-	// TODO: Open WP Media library here
+	// TODO: Open WP Media library here...OR do we want to keep
+	// it to a file URL?
+	// Pros: We keep the /song endpoint, create attachment post on BE
+	// and open the possibility of integration with external services
 
     const fileInput = event.target as HTMLInputElement;
     const allowedTypes = ['audio/mpeg', 'audio/wav'];
@@ -51,23 +51,20 @@ function handleFileSelect(event: Event): void {
         return;
     }
 
-	console.log('context', context);
-
     // Update the global state (context)
-    const fileUrl = URL.createObjectURL(file);
+    const fileBlob = URL.createObjectURL(file);
     context.fileSelected = true;
-    context.fileUrl = fileUrl;
-
+    context.fileBlob = fileBlob;
+	console.log(fileBlob);
 }
 
 // This function will handle the form submission and song upload.
 function uploadSong(event: Event): void {
-	console.log('uploadSong');
     event.preventDefault();
 
 	console.log(getContext< Context >());
 
-	const { fileSelected, fileUrl } = getContext< Context >();
+	const { fileSelected, fileBlob } = getContext< Context >();
 
     const titleInput = document.getElementById('song-title') as HTMLInputElement;
 
@@ -86,7 +83,7 @@ function uploadSong(event: Event): void {
         body: JSON.stringify({
             title: titleInput.value,
             meta: {
-                song_file: fileUrl,
+                song_file: fileBlob,
             },
             status: 'publish',
         }),

@@ -21,16 +21,11 @@ $unique_id = wp_unique_id( 'song-upload-' );
 $store_namespace = 'upload-block';
 
 // Enqueue global state using the WordPress Interactivity API.
-wp_interactivity_state( $store_namespace, array(
-		'fileSelected' => false,
-		'fileUrl'      => '',
-		'title'        => '',
-	)
-);
+wp_interactivity_state( $store_namespace, array());
 
 $context = wp_interactivity_data_wp_context( array(
 		'fileSelected' => false,
-		'fileUrl'      => '',
+		'fileBlob'      => '',
 		'title'        => '',
 	),
 	$store_namespace
