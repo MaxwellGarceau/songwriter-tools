@@ -17,22 +17,31 @@ if ( ! is_user_logged_in() ) {
 // Generate a unique ID for the block.
 $unique_id = wp_unique_id( 'song-upload-' );
 
+// TODO: Let's find a place to put a class constant or define for this
+$store_namespace = 'upload-block';
+
 // Enqueue global state using the WordPress Interactivity API.
-wp_interactivity_state(
-	'song-upload-state',
-	array(
-		'uploadStatus'  => false,
-		'statusMessage' => '',
-		'allowedTypes'  => array( 'audio/mpeg', 'audio/wav' ),
+wp_interactivity_state( $store_namespace, array(
+		'fileSelected' => false,
+		'fileUrl'      => '',
+		'title'        => '',
 	)
+);
+
+$context = wp_interactivity_data_wp_context( array(
+		'fileSelected' => false,
+		'fileUrl'      => '',
+		'title'        => '',
+	),
+	$store_namespace
 );
 
 ?>
 
 <div 
 	<?php echo get_block_wrapper_attributes(); ?> 
-	data-wp-interactive="song-upload-state"
-	data-wp-context="{ fileSelected: false, fileUrl: '', title: '' }"
+	data-wp-interactive="<?php echo $store_namespace; ?>"
+	<?php echo $context; ?>
 >
 	<h3><?php echo esc_html__( 'Upload Your Song', 'songwriter-tools' ); ?></h3>
 

@@ -1,26 +1,74 @@
+import { store, getContext } from "@wordpress/interactivity";
+
+// TODO: Syncronize this with render.php
+const storeNamespace = 'upload-block';
+
+type ServerState = {
+	state: {
+		title: string;
+		fileSelected: boolean;
+		fileUrl: string;
+	};
+};
+
+type Context = {
+	fileSelected: boolean;
+	fileUrl: string;
+};
+
+
+const storeDef = store( storeNamespace, {
+	state: {
+		title: '',
+		fileSelected: false,
+		fileUrl: '',
+	},
+	 actions: {
+		handleFileSelect,
+		uploadSong,
+		test: () => console.log('test')
+	 },
+	//  callbacks: {
+	// 	//
+	//  },
+   });
+
 // This function will handle file validation and selection.
 function handleFileSelect(event: Event): void {
+	console.log('handleFileSelect');
+
+	const context = getContext< Context >();
+
+	// TODO: Open WP Media library here
+
     const fileInput = event.target as HTMLInputElement;
     const allowedTypes = ['audio/mpeg', 'audio/wav'];
     const file = fileInput?.files?.[0];
 
     if (!file || !allowedTypes.includes(file.type)) {
         setStatusMessage('Only audio files are allowed.', 'error');
+		fileInput.value = '';  // Reset the file input
         return;
     }
 
+	console.log('context', context);
+
     // Update the global state (context)
     const fileUrl = URL.createObjectURL(file);
-    window.wp.interactivity.setContext('fileSelected', true);
-    window.wp.interactivity.setContext('fileUrl', fileUrl);
+    context.fileSelected = true;
+    context.fileUrl = fileUrl;
+
 }
 
 // This function will handle the form submission and song upload.
 function uploadSong(event: Event): void {
+	console.log('uploadSong');
     event.preventDefault();
 
-    const fileSelected = window.wp.interactivity.getContext('fileSelected');
-    const fileUrl = window.wp.interactivity.getContext('fileUrl');
+	console.log(getContext< Context >());
+
+	const { fileSelected, fileUrl } = getContext< Context >();
+
     const titleInput = document.getElementById('song-title') as HTMLInputElement;
 
     if (!fileSelected || !titleInput?.value) {
@@ -59,6 +107,7 @@ function uploadSong(event: Event): void {
 
 // Helper function to show status messages
 function setStatusMessage(message: string, status: 'success' | 'error'): void {
+	// TODO: Refactor this to use state
     const messageElement = document.getElementById('song-upload-message');
     if (messageElement) {
         messageElement.textContent = message;
@@ -66,8 +115,6 @@ function setStatusMessage(message: string, status: 'success' | 'error'): void {
     }
 }
 
-// Declare these methods globally for the interactivity API to access them.
-(window as any).actions = {
-    handleFileSelect,
-    uploadSong,
-};
+type Store = ServerState & typeof storeDef;
+
+const { state } = store< Store >( storeNamespace, storeDef );
