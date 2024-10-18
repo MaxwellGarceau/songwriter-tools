@@ -1,0 +1,30 @@
+{
+    "name": "maxgarceau/songwriter-tools",
+    "description": "Gutenberg blocks for songwriting related functionality",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Max_Garceau\\Songwriter_Tools\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Max Garceau",
+            "email": "maxwellgarceau@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7",
+        "wp-coding-standards/wpcs": "^3.1"
+    },
+    "scripts": {
+        "phpcs": "phpcs --standard=WordPress --extensions=php",
+        "phpcbf": "phpcbf --standard=WordPress --extensions=php"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

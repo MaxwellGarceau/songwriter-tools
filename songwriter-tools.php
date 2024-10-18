@@ -14,9 +14,21 @@
  * @package           songwriter-tools
  */
 
+use Max_Garceau\Songwriter_Tools\Songwriter_Tools;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
+/**
+ * Load Composer autoloader if it exists.
+ */
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
+
+$songwriter_tools = new Songwriter_Tools();
+$songwriter_tools->init();
 
 /**
  * Registers a custom block category for Songwriter Tools.
