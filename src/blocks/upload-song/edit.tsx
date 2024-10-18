@@ -26,7 +26,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = () => {
 
     const onFileSelect = (media: MediaItem) => {
         if (!ALLOWED_MEDIA_TYPES.includes(media.mime)) {
-            setError(__('Only audio files are allowed!', 'song-upload-block'));
+            setError(__('Only audio files are allowed!', 'songwriter-tools'));
             setFile(null);
             return;
         }
@@ -36,7 +36,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = () => {
 
     const handleSubmit = async () => {
         if (!file) {
-            setError(__('Please select a file before submitting.', 'song-upload-block'));
+            setError(__('Please select a file before submitting.', 'songwriter-tools'));
             return;
         }
 
@@ -57,9 +57,9 @@ const SongUploadBlock: React.FC<SongUploadProps> = () => {
             });
 
             if (!response.ok) {
-                throw new Error(__('Error uploading file.', 'song-upload-block'));
+                throw new Error(__('Error uploading file.', 'songwriter-tools'));
             }
-            alert(__('File uploaded successfully!', 'song-upload-block'));
+            alert(__('File uploaded successfully!', 'songwriter-tools'));
         } catch (err) {
             setError((err as Error).message);
         }
@@ -67,7 +67,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = () => {
 
     return (
         <div className="song-upload-block">
-            <h3>{__('Upload Your Song', 'song-upload-block')}</h3>
+            <h3>{__('Upload Your Song', 'songwriter-tools')}</h3>
             {error && <Notice status="error">{error}</Notice>}
             <MediaUploadCheck>
                 <MediaUpload
@@ -75,14 +75,14 @@ const SongUploadBlock: React.FC<SongUploadProps> = () => {
                     allowedTypes={ALLOWED_MEDIA_TYPES}
                     render={({ open }) => (
                         <Button onClick={open} className="button button-primary">
-                            {file ? __('Change file', 'song-upload-block') : __('Upload file', 'song-upload-block')}
+                            {file ? __('Change file', 'songwriter-tools') : __('Upload file', 'songwriter-tools')}
                         </Button>
                     )}
                 />
             </MediaUploadCheck>
-            {file && <p>{__('Selected file: ', 'song-upload-block') + file.url}</p>}
+            {file && <p>{__('Selected file: ', 'songwriter-tools') + file.url}</p>}
             <Button isPrimary onClick={handleSubmit}>
-                {__('Submit', 'song-upload-block')}
+                {__('Submit', 'songwriter-tools')}
             </Button>
         </div>
     );

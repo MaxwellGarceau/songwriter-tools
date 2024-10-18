@@ -32,6 +32,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
+// TODO: Switch to PHP-DI for dependency injection
 $songwriter_tools = new Songwriter_Tools(
     new Register_Songs_CPT(),
     new Api( new Auth(), new Validation(), new Song_Controller() )
