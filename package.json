@@ -1,0 +1,27 @@
+{
+	"name": "upload-song",
+	"version": "0.1.0",
+	"description": "Upload music to the WP Media library from the front end of your website",
+	"author": "Max Garceau",
+	"license": "GPL-2.0-or-later",
+	"homepage": "https://resume.maxgarceau.com/",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build --experimental-modules",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start --experimental-modules"
+	},
+	"files": [
+		"[^.]*"
+	],
+	"dependencies": {
+		"@wordpress/interactivity": "^6.10.0"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^30.3.0"
+	}
+}
