@@ -13,13 +13,16 @@ class Song_Controller implements Storeable {
 			return new \WP_REST_Response(
 				array(
 					'success' => false,
-					'message' => __( 'Song file URL is missing.', 'song-upload-block' ),
+					'message' => __( 'Song file URL is missing.', 'songwriter-tools' ),
 				),
 				400
 			);
 		}
 
 		// Sanitize input
+		// TODO: Move these into Api.php as sanitize_callback arguments
+		// TODO: Move the sanitization logic into a new Sanitization class
+		// TODO: Sanitize at the start with $request->sanitize_params()
 		$post_title    = sanitize_text_field( $params['title'] );
 		$song_file_url = esc_url_raw( $params['meta']['song_file'] );
 
@@ -39,7 +42,7 @@ class Song_Controller implements Storeable {
 			return new \WP_REST_Response(
 				array(
 					'success' => false,
-					'message' => __( 'Error creating post.', 'song-upload-block' ),
+					'message' => __( 'Error creating post.', 'songwriter-tools' ),
 				),
 				500
 			);

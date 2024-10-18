@@ -36,9 +36,6 @@ class Api {
 		$this->song_controller = $song_controller;
 	}
 
-	/**
-	 * TODO: Move register routes to its own class
-	 */
 	public function register_routes(): void {
 		register_rest_route(
 			self::NAMESPACE,
