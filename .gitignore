@@ -46,3 +46,5 @@ Thumbs.db
 # Lando environment files (if using Lando)
 .lando.yml
 .lando/
+
+/vendor/

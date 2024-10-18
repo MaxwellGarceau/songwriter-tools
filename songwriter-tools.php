@@ -14,9 +14,30 @@
  * @package           songwriter-tools
  */
 
+use Max_Garceau\Songwriter_Tools\Songwriter_Tools;
+use Max_Garceau\Songwriter_Tools\Endpoints\Api;
+use Max_Garceau\Songwriter_Tools\Endpoints\Auth;
+use Max_Garceau\Songwriter_Tools\Endpoints\Validation;
+use Max_Garceau\Songwriter_Tools\Endpoints\Controllers\Song_Controller;
+use Max_Garceau\Songwriter_Tools\Includes\Register_Songs_CPT;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
+/**
+ * Load Composer autoloader if it exists.
+ */
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
+
+// TODO: Switch to PHP-DI for dependency injection
+$songwriter_tools = new Songwriter_Tools(
+    new Register_Songs_CPT(),
+    new Api( new Auth(), new Validation(), new Song_Controller() )
+);
+$songwriter_tools->init();
 
 /**
  * Registers a custom block category for Songwriter Tools.
@@ -51,6 +72,6 @@ add_filter( 'block_categories_all', 'songwriter_tools_register_block_category', 
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 function songwriter_tools_upload_song_block_init() {
-	register_block_type_from_metadata( __DIR__ . '/build' );
+	register_block_type_from_metadata( __DIR__ . '/build/blocks/upload-song' );
 }
 add_action( 'init', 'songwriter_tools_upload_song_block_init' );
