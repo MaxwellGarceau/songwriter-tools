@@ -16,17 +16,19 @@ interface Media {
         rendered: string;
     };
     mime: string;
+    isMediaEnabled: boolean;
 }
 
 const SongUploadBlock: React.FC<SongUploadProps> = () => {
     const [file, setFile] = useState<Media | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [isMediaEnabled] = useState<boolean | null>(false);
 
     const ALLOWED_MEDIA_TYPES: string[] = ['audio/mpeg', 'audio/wav']; // Accept only MP3 and WAV
 
     const onFileSelect = (media: MediaItem) => {
         if (!ALLOWED_MEDIA_TYPES.includes(media.mime)) {
-            setError(__('Only audio files are allowed!', 'songwriter-tools'));
+            setError(__('Only audio files are allowed!', 'upload-block'));
             setFile(null);
             return;
         }
@@ -36,7 +38,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = () => {
 
     const handleSubmit = async () => {
         if (!file) {
-            setError(__('Please select a file before submitting.', 'songwriter-tools'));
+            setError(__('Please select a file before submitting.', 'upload-block'));
             return;
         }
 
@@ -57,32 +59,38 @@ const SongUploadBlock: React.FC<SongUploadProps> = () => {
             });
 
             if (!response.ok) {
-                throw new Error(__('Error uploading file.', 'songwriter-tools'));
+                throw new Error(__('Error uploading file.', 'upload-block'));
             }
-            alert(__('File uploaded successfully!', 'songwriter-tools'));
+            alert(__('File uploaded successfully!', 'upload-block'));
         } catch (err) {
             setError((err as Error).message);
         }
     };
 
+    // TODO: I don't like this solution, but here for now to prevent users from uploading media in editor
+    const stopMediaUpload = (): void => {
+        setError(__('Media uploading is not enabled on the editor.', 'upload-block'));
+        return;
+    }
+
     return (
         <div className="song-upload-block">
-            <h3>{__('Upload Your Song', 'songwriter-tools')}</h3>
+            <h3>{__('Upload Your Song', 'upload-block')}</h3>
             {error && <Notice status="error">{error}</Notice>}
             <MediaUploadCheck>
                 <MediaUpload
                     onSelect={onFileSelect}
                     allowedTypes={ALLOWED_MEDIA_TYPES}
                     render={({ open }) => (
-                        <Button onClick={open} className="button button-primary">
-                            {file ? __('Change file', 'songwriter-tools') : __('Upload file', 'songwriter-tools')}
+                        <Button onClick={isMediaEnabled ? open : stopMediaUpload} className="button button-primary">
+                            {file ? __('Change file', 'upload-block') : __('Upload file', 'upload-block')}
                         </Button>
                     )}
                 />
             </MediaUploadCheck>
-            {file && <p>{__('Selected file: ', 'songwriter-tools') + file.url}</p>}
+            {file && <p>{__('Selected file: ', 'upload-block') + file.url}</p>}
             <Button isPrimary onClick={handleSubmit}>
-                {__('Submit', 'songwriter-tools')}
+                {__('Submit', 'upload-block')}
             </Button>
         </div>
     );
