@@ -25,7 +25,19 @@ class Api {
 
 	const NAMESPACE = 'songwriter-tools/v1';
 
-	// TODO: Is there a better way to inject these dependencies?
+	/**
+	 * TODO: It's important that we don't unnecessarily couple the blocks
+	 * to a single backend.
+	 * 
+	 * The song route is okay here because that route is specific to the theme.
+	 * 
+	 * The upload-song button can be moved to another project with minimal tweaks
+	 * and be refactored to more generically accept user uploads
+	 * (e.g. images, videos, audio, etc).
+	 * 
+	 * However, making a note here to check in on future routes added here for
+	 * long term app health.
+	 */
 	public function __construct(
 		Auth $auth,
 		Validation $validation,
