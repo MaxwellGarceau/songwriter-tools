@@ -63,6 +63,6 @@ add_filter( 'block_categories_all', 'songwriter_tools_register_block_category', 
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 function songwriter_tools_upload_song_block_init() {
-	register_block_type_from_metadata( __DIR__ . '/build' );
+	register_block_type_from_metadata( __DIR__ . '/build/blocks/upload-song' );
 }
 add_action( 'init', 'songwriter_tools_upload_song_block_init' );
