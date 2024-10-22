@@ -1,4 +1,7 @@
 import { store, getContext } from "@wordpress/interactivity";
+import configs from './configs';
+
+const { apiPath } = configs;
 
 // TODO: Synchronize this with render.php
 const storeNamespace = 'upload-block';
@@ -72,7 +75,7 @@ function uploadSong(event: Event): void {
 	formData.append('song_file', file);          // The actual file
 
 	// Send a POST request to the REST API to create the new post
-	fetch('/wp-json/songwriter-tools/v1/song', {
+	fetch(`${apiPath}/song`, {
 		method: 'POST',
 		headers: {
 			'X-WP-Nonce': state.nonce,
@@ -84,8 +87,7 @@ function uploadSong(event: Event): void {
 			// If response is not OK, handle the error and get the message from the body
 			if (!response.ok) {
 				// Display BE error to FE
-				return response.json().then(data => {
-					const message = data.message || 'An unknown error occurred';
+				return response.json().then(({ message = 'An unknown error occurred' }) => {
 					// Throw an error with the message
 					throw new Error(`Error uploading song: ${message}`);
 				});
@@ -93,17 +95,17 @@ function uploadSong(event: Event): void {
 			// If the response is OK, proceed to parse the JSON
 			return response.json();
 		})
-		.then(data => {
+		.then(({ success, message }) => {
 			// Check if song upload was successful
-			if (data.success) {
+			if (success) {
 				setStatusMessage('Song uploaded successfully!', 'success');
 			} else {
-				setStatusMessage(data.message, 'error');
+				setStatusMessage(message, 'error');
 			}
 		})
-		.catch(error => {
+		.catch(({ message }) => {
 			// Catch any error thrown (including those from non-OK responses)
-			setStatusMessage(error.message, 'error');
+			setStatusMessage(message, 'error');
 		});
 }
 
