@@ -48,6 +48,7 @@ class Api {
 		$this->song_controller = $song_controller;
 	}
 
+	// TODO: Add sanitization callbacks
 	public function register_routes(): void {
 		register_rest_route(
 			self::NAMESPACE,
