@@ -59,11 +59,11 @@ class Api {
 				'args'                => [
 					'title' => [
 						'required'          => true,
-						'validate_callback' => [ $this->validation, 'validate_title' ],
+						'validate_callback' => [ $this->validation, 'title' ],
 					],
-					'meta'  => [
+					'song_file' => [
 						'required'          => true,
-						'validate_callback' => [ $this->validation, 'validate_meta' ],
+						'validate_callback' => [ $this->validation, 'song_file' ],
 					],
 				],
 			]
