@@ -66,9 +66,11 @@ $context = wp_interactivity_data_wp_context( array(
 			data-wp-bind--value="context.title" 
 		/>
 
-		<button type="submit" class="button button-primary">
-			<?php esc_html_e( 'Upload Song', 'songwriter-tools' ); ?>
-		</button>
+		<div class="wp-block-button">
+			<button type="submit" class="button button-primary wp-block-button__link wp-element-button">
+				<?php esc_html_e( 'Upload Song', 'songwriter-tools' ); ?>
+			</button>
+		</div>
 	</form>
 
 	<p id="song-upload-message" data-wp-bind--text="state.statusMessage"></p>

@@ -48,7 +48,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ( { attributes, setAttributes
     return (
         <div {...blockProps}>
             <h3>{__('Upload Your Song', 'upload-block')}</h3>
-            {error && <Notice status="error">{error}</Notice>}
+            {error && <Notice status="error" onRemove={() => setError(null)}>{error}</Notice>}
             <MediaUploadCheck>
                 <MediaUpload
                     onSelect={onFileSelect}
@@ -61,9 +61,13 @@ const SongUploadBlock: React.FC<SongUploadProps> = ( { attributes, setAttributes
                 />
             </MediaUploadCheck>
             {file && <p>{__('Selected file: ', 'upload-block') + file.url}</p>}
-            <Button isPrimary onClick={handleSubmit}>
-                {__('Submit', 'upload-block')}
-            </Button>
+
+            {/** Same styles as the WP Link Button */}
+            <div className="wp-block-button">
+                <button type="submit" className="wp-block-button__link" onClick={handleSubmit}>
+                    {__('Upload Song', 'upload-block')}
+                </button>
+            </div>
         </div>
     );
 };

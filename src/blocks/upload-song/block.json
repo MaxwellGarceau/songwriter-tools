@@ -11,7 +11,11 @@
 	"supports": {
 		"interactivity": true,
 		"align": true,
-		"html": false
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true
+		}
 	},
 	"textdomain": "upload-song",
 	"editorScript": "file:./index.js",
