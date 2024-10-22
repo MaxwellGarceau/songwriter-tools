@@ -6,6 +6,7 @@ use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Get_Title;
 use Max_Garceau\Songwriter_Tools\Endpoints\Actions\File_Upload;
 use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Create_Attachment;
 use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Generate_Metadata;
+use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Create_Song;
 use Max_Garceau\Songwriter_Tools\Endpoints\Validation;
 use Monolog\Logger;
 use WP_REST_Request;
@@ -58,23 +59,17 @@ class Song_Controller implements Storeable {
 			$generate_metadata = new Generate_Metadata( $attachment_id, $uploaded_file['file'] );
 			$generate_metadata->execute();
 
-			// Create Song CPT
-			$song    = array(
-				'post_title'   => $title,
-				'post_content' => '', // TODO: Add lyrics here
-				'post_status'  => 'publish',
-				'post_type'    => 'song',
-			);
-			$song_id = wp_insert_post( $song );
-			if ( ! is_wp_error( $song_id ) ) {
-				set_post_thumbnail( $song_id, $attachment_id );
-			}
+			// Action to create a song custom post type
+			$create_song = new Create_Song( $title, $attachment_id );
+			$create_song->execute();
+			$song_id = $create_song->get_song_id();
 
 			// Yay we made it!
 			return new \WP_REST_Response(
 				array(
 					'message'       => 'Song uploaded successfully!',
 					'attachment_id' => $attachment_id,
+					'song_id'       => $song_id,
 					'file_url'      => wp_get_attachment_url( $attachment_id ),
 					'success'       => true,
 				),
