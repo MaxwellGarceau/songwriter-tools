@@ -50,6 +50,15 @@
     <exclude-pattern>wp/*</exclude-pattern>
     <exclude-pattern>tmp-wordpress-stubs.php</exclude-pattern>
 
+    <!-- Enforce the use of tabs for indentation -->
+    <rule ref="Generic.WhiteSpace.DisallowSpaceIndent" />
+
+    <!-- Include WordPress Core standard -->
+    <!-- <rule ref="WordPress-Core" /> -->
+
+    <!-- Optional: Specify the tab width (WordPress default is 4 spaces) -->
+    <config name="tab-width" value="4"/>
+
     <!-- Allow symbol `/` in hook names. -->
     <rule ref="WordPress.NamingConventions.ValidHookName">
         <properties>
