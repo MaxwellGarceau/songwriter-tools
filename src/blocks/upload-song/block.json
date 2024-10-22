@@ -9,7 +9,9 @@
 	"description": "Upload music to the WP Media library from the front end of your website",
 	"example": {},
 	"supports": {
-		"interactivity": true
+		"interactivity": true,
+		"align": true,
+		"html": false
 	},
 	"textdomain": "upload-song",
 	"editorScript": "file:./index.js",
