@@ -1,117 +1,114 @@
 import { store, getContext } from "@wordpress/interactivity";
 
-// TODO: Syncronize this with render.php
+// TODO: Synchronize this with render.php
 const storeNamespace = 'upload-block';
 
 type ServerState = {
 	state: {
 		title: string;
 		fileSelected: boolean;
-		fileBlob: string;
+		nonce: string;
 	};
 };
 
 type Context = {
 	fileSelected: boolean;
-	fileBlob: string;
 };
 
-
+// Define the store
 const storeDef = store( storeNamespace, {
 	state: {
 		title: '',
 		fileSelected: false,
-		fileBlob: '',
 	},
-	 actions: {
+	actions: {
 		handleFileSelect,
 		uploadSong,
-	 },
-	//  callbacks: {
-	// 	//
-	//  },
+	},
    });
 
-// This function will handle file validation and selection.
+// This function will handle file validation and selection
 function handleFileSelect(event: Event): void {
-	const context = getContext< Context >();
-
 	// TODO: Open WP Media library here...OR do we want to keep
 	// it to a file URL?
 	// Pros: We keep the /song endpoint, create attachment post on BE
 	// and open the possibility of integration with external services
+	const context = getContext<Context>();
 
-    const fileInput = event.target as HTMLInputElement;
-    const allowedTypes = ['audio/mpeg', 'audio/wav'];
-    const file = fileInput?.files?.[0];
+	const fileInput = event.target as HTMLInputElement;
+	const allowedTypes = ['audio/mpeg', 'audio/wav'];
+	const file = fileInput?.files?.[0];
 
-    if (!file || !allowedTypes.includes(file.type)) {
-        setStatusMessage('Only audio files are allowed.', 'error');
+	if (!file || !allowedTypes.includes(file.type)) {
+		setStatusMessage('Only audio files are allowed.', 'error');
 		fileInput.value = '';  // Reset the file input
-        return;
-    }
+		return;
+	}
 
-    // Update the global state (context)
-    const fileBlob = URL.createObjectURL(file);
-    context.fileSelected = true;
-    context.fileBlob = fileBlob;
-	console.log(fileBlob);
+	// Update the global state (context)
+	context.fileSelected = true;
+	console.log(`File selected: ${file.name}`);
 }
 
-// This function will handle the form submission and song upload.
+// This function will handle the form submission and song upload
 function uploadSong(event: Event): void {
-    event.preventDefault();
+	event.preventDefault();
 
-	console.log(getContext< Context >());
+	const { fileSelected } = getContext<Context>();
+	const titleInput = document.getElementById('song-title') as HTMLInputElement;
 
-	const { fileSelected, fileBlob } = getContext< Context >();
+	if (!fileSelected || !titleInput?.value) {
+		setStatusMessage('Please select a file and provide a song title.', 'error');
+		return;
+	}
 
-    const titleInput = document.getElementById('song-title') as HTMLInputElement;
+	// Create a FormData object to send the actual file
+	const formData = new FormData();
+	const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+	const file = fileInput.files?.[0];
 
-    if (!fileSelected || !titleInput?.value) {
-        setStatusMessage('Please select a file and provide a song title.', 'error');
-        return;
-    }
+	// Add form fields
+	formData.append('title', titleInput.value);  // Song title
+	formData.append('song_file', file);          // The actual file
 
-    // Send a POST request to the REST API to create the new post
-    fetch('/wp-json/songwriter-tools/v1/song', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-WP-Nonce': (window as any).wpApiSettings.nonce,
-        },
-        body: JSON.stringify({
-            title: titleInput.value,
-            meta: {
-                song_file: fileBlob,
-            },
-            status: 'publish',
-        }),
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error uploading song.');
-            }
-            return response.json();
-        })
-        .then(() => {
-            setStatusMessage('Song uploaded successfully!', 'success');
-        })
-        .catch(error => {
-            setStatusMessage(error.message, 'error');
-        });
+	// Send a POST request to the REST API to create the new post
+	fetch('/wp-json/songwriter-tools/v1/song', {
+		method: 'POST',
+		headers: {
+			'X-WP-Nonce': state.nonce,
+		},
+		body: formData,  // Send the FormData object
+	})
+		// Check if response succeeded
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Error uploading song.');
+			}
+			return response.json();
+		})
+		
+		// Check if song upload was successful
+		.then((data) => {
+			if (data.success) {
+			setStatusMessage('Song uploaded successfully!', 'success');
+			} else {
+				setStatusMessage(data.data.message, 'error');
+			}
+		})
+		.catch(error => {
+			setStatusMessage(error.message, 'error');
+		});
 }
 
 // Helper function to show status messages
 function setStatusMessage(message: string, status: 'success' | 'error'): void {
-	// TODO: Refactor this to use state
-    const messageElement = document.getElementById('song-upload-message');
-    if (messageElement) {
-        messageElement.textContent = message;
-        messageElement.style.color = status === 'error' ? 'red' : 'green';
-    }
+	const messageElement = document.getElementById('song-upload-message');
+	if (messageElement) {
+		messageElement.textContent = message;
+		messageElement.style.color = status === 'error' ? 'red' : 'green';
+	}
 }
 
 type Store = ServerState & typeof storeDef;
 
-const { state } = store< Store >( storeNamespace, storeDef );
+const { state } = store<Store>(storeNamespace, storeDef);

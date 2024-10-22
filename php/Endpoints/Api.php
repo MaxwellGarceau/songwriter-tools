@@ -28,13 +28,13 @@ class Api {
 	/**
 	 * TODO: It's important that we don't unnecessarily couple the blocks
 	 * to a single backend.
-	 * 
+	 *
 	 * The song route is okay here because that route is specific to the theme.
-	 * 
+	 *
 	 * The upload-song button can be moved to another project with minimal tweaks
 	 * and be refactored to more generically accept user uploads
 	 * (e.g. images, videos, audio, etc).
-	 * 
+	 *
 	 * However, making a note here to check in on future routes added here for
 	 * long term app health.
 	 */
@@ -59,11 +59,7 @@ class Api {
 				'args'                => array(
 					'title' => array(
 						'required'          => true,
-						'validate_callback' => array( $this->validation, 'validate_title' ),
-					),
-					'meta'  => array(
-						'required'          => true,
-						'validate_callback' => array( $this->validation, 'validate_meta' ),
+						'validate_callback' => array( $this->validation, 'title' ),
 					),
 				),
 			)

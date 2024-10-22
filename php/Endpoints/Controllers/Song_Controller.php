@@ -2,58 +2,81 @@
 
 namespace Max_Garceau\Songwriter_Tools\Endpoints\Controllers;
 
-use Max_Garceau\Songwriter_Tools\Endpoints\Controllers\Storeable;
+use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Get_Title;
+use Max_Garceau\Songwriter_Tools\Endpoints\Actions\File_Upload;
+use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Create_Attachment;
+use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Generate_Metadata;
+use Max_Garceau\Songwriter_Tools\Services\Nonce_Service;
+use Max_Garceau\Songwriter_Tools\Services\Nonce_Status;
+use Max_Garceau\Songwriter_Tools\Endpoints\Validation;
+use Monolog\Logger;
+use WP_REST_Request;
 
 class Song_Controller implements Storeable {
-	public function store( \WP_REST_Request $request ): \WP_REST_Response {
-		$params = $request->get_params();
 
-		// Ensure we have the necessary data
-		if ( ! isset( $params['meta']['song_file'] ) ) {
+	public function __construct(
+		private readonly Nonce_Service $nonce_service,
+		private readonly Validation $validation,
+		private readonly Logger $logger
+	) {}
+
+	public function store( WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+		try {
+
+			// Verify nonce
+			if ( $this->nonce_service->verify_nonce() === Nonce_Status::INVALID ) {
+				$this->logger->error( 'Invalid or expired nonce.' );
+				return new \WP_REST_Response(
+					array(
+						'message' => 'Invalid or expired nonce.',
+					),
+					403
+				);
+			}
+
+			// Validate the song_file
+			$result = $this->validation->audio_file( $_FILES['song_file'] );
+			if ( is_wp_error( $result ) ) {
+				return new \WP_REST_Response(
+					array(
+						'error_code' => $result->get_error_code(),
+						'message'    => $result->get_error_message(),
+					),
+					400
+				);
+			}
+
+			// Action to get and sanitize the title
+			$get_title = new Get_Title( $request );
+			$get_title->execute();
+			$title = $get_title->getTitle();
+
+			// Action to handle file upload
+			$file_upload = new File_Upload( $_FILES['song_file'] );
+			$file_upload->execute();
+			$uploaded_file = $file_upload->getUploadedFile();
+
+			// Action to create an attachment
+			$create_attachment = new Create_Attachment( $title, $uploaded_file );
+			$create_attachment->execute();
+			$attachment_id = $create_attachment->getAttachmentId();
+
+			// Action to generate and update metadata
+			$generate_metadata = new Generate_Metadata( $attachment_id, $uploaded_file['file'] );
+			$generate_metadata->execute();
+
+			// Yay we made it!
 			return new \WP_REST_Response(
 				array(
-					'success' => false,
-					'message' => __( 'Song file URL is missing.', 'songwriter-tools' ),
+					'message'       => 'Song uploaded successfully!',
+					'attachment_id' => $attachment_id,
+					'file_url'      => wp_get_attachment_url( $attachment_id ),
 				),
-				400
+				200
 			);
+
+		} catch ( \Exception $e ) {
+			return new \WP_Error( 'error', $e->getMessage(), array( 'status' => 500 ) );
 		}
-
-		// Sanitize input
-		// TODO: Move these into Api.php as sanitize_callback arguments
-		// TODO: Move the sanitization logic into a new Sanitization class
-		// TODO: Sanitize at the start with $request->sanitize_params()
-		$post_title    = sanitize_text_field( $params['title'] );
-		$song_file_url = esc_url_raw( $params['meta']['song_file'] );
-
-		// Create new post of custom post type "song"
-		$post_id = wp_insert_post(
-			array(
-				'post_title'  => $post_title,
-				'post_type'   => 'song',
-				'post_status' => 'publish',
-				'meta_input'  => array(
-					'song_file' => $song_file_url,
-				),
-			)
-		);
-
-		if ( is_wp_error( $post_id ) ) {
-			return new \WP_REST_Response(
-				array(
-					'success' => false,
-					'message' => __( 'Error creating post.', 'songwriter-tools' ),
-				),
-				500
-			);
-		}
-
-		return new \WP_REST_Response(
-			array(
-				'success' => true,
-				'post_id' => $post_id,
-			),
-			200
-		);
 	}
 }

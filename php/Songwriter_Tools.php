@@ -2,6 +2,7 @@
 
 namespace Max_Garceau\Songwriter_Tools;
 
+use Max_Garceau\Songwriter_Tools\Includes\Hook_Manager;
 use Max_Garceau\Songwriter_Tools\Includes\Register_Songs_CPT;
 use Max_Garceau\Songwriter_Tools\Endpoints\Api;
 
@@ -11,35 +12,21 @@ use Max_Garceau\Songwriter_Tools\Endpoints\Api;
 class Songwriter_Tools {
 
 	/**
+	 * @var Hook_Manager $hook_manager An instance of the Hook_Manager class.
 	 * @var Register_Songs_CPT $register_songs_cpt An instance of the Register_Songs_CPT class.
-	 */
-	private Register_Songs_CPT $register_songs_cpt;
-
-	/**
 	 * @var Api $api An instance of the Api class.
 	 */
-	private Api $api;
-
 	public function __construct(
-		Register_Songs_CPT $register_songs_cpt,
-		Api $api
-	) {
-		$this->register_songs_cpt = $register_songs_cpt;
-		$this->api                = $api;
-	}
+		public readonly Hook_Manager $hook_manager,
+		public readonly Register_Songs_CPT $register_songs_cpt,
+		public readonly Api $api
+	) {}
 
 	/**
-	 * Initialize the plugin.
+	 * Initializes the plugin
 	 */
 	public function init() {
-		$this->register_hooks();
-	}
-
-	/**
-	 * Register hooks for the plugin.
-	 */
-	private function register_hooks(): void {
-		add_action( 'init', array( $this->register_songs_cpt, 'create_song_post_type' ) );
-		add_action( 'rest_api_init', array( $this->api, 'register_routes' ) );
+		// Init WP Hooks
+		$this->hook_manager->add_actions( $this );
 	}
 }

@@ -15,11 +15,7 @@
  */
 
 use Max_Garceau\Songwriter_Tools\Songwriter_Tools;
-use Max_Garceau\Songwriter_Tools\Endpoints\Api;
-use Max_Garceau\Songwriter_Tools\Endpoints\Auth;
-use Max_Garceau\Songwriter_Tools\Endpoints\Validation;
-use Max_Garceau\Songwriter_Tools\Endpoints\Controllers\Song_Controller;
-use Max_Garceau\Songwriter_Tools\Includes\Register_Songs_CPT;
+use Max_Garceau\Songwriter_Tools\Includes\DI_Container;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -29,15 +25,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Load Composer autoloader if it exists.
  */
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
-    require_once __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/vendor/autoload.php';
 }
 
-// TODO: Switch to PHP-DI for dependency injection
-$songwriter_tools = new Songwriter_Tools(
-    new Register_Songs_CPT(),
-    new Api( new Auth(), new Validation(), new Song_Controller() )
-);
-$songwriter_tools->init();
+/**
+ * Load the main plugin class.
+ * 
+ * The container will build if no instance has been initialized.
+ * Use the container to initialize the main plugin class
+ */
+(DI_Container::get_container()->get( Songwriter_Tools::class ))->init();
 
 /**
  * Registers a custom block category for Songwriter Tools.
@@ -51,16 +48,16 @@ $songwriter_tools->init();
  * @return array Modified array of block categories.
  */
 function songwriter_tools_register_block_category( $categories, $post ) {
-    // Add a custom category called "Songwriter Tools"
-    return array_merge(
-        $categories,
-        [
-            [
-                'slug'  => 'songwriter-tools',
-                'title' => __( 'Songwriter Tools', 'songwriter-tools' ),
-            ],
-        ]
-    );
+	// Add a custom category called "Songwriter Tools"
+	return array_merge(
+		$categories,
+		[
+			[
+				'slug'  => 'songwriter-tools',
+				'title' => __( 'Songwriter Tools', 'songwriter-tools' ),
+			],
+		]
+	);
 }
 add_filter( 'block_categories_all', 'songwriter_tools_register_block_category', 10, 2 );
 
