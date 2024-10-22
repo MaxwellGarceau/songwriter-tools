@@ -28,7 +28,6 @@ $store_namespace = 'upload-block';
 // Add nonce and ajax_url to the global state
 wp_interactivity_state( $store_namespace, array(
 	'nonce' => $nonce_service->create_nonce(),
-	'ajax_url' => admin_url( 'admin-ajax.php' ),
 ));
 
 $context = wp_interactivity_data_wp_context( array(
