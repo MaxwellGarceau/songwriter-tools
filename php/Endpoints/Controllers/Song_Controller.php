@@ -52,6 +52,18 @@ class Song_Controller implements Storeable {
 			$generate_metadata = new Generate_Metadata( $attachment_id, $uploaded_file['file'] );
 			$generate_metadata->execute();
 
+			// Create Song CPT
+			$song = array(
+				'post_title'   => $title,
+				'post_content' => '', // TODO: Add lyrics here
+				'post_status'  => 'publish',
+				'post_type'    => 'song',
+			);
+			$song_id = wp_insert_post( $song );
+			if ( ! is_wp_error( $song_id ) ) {
+				set_post_thumbnail( $song_id, $attachment_id );
+			}
+
 			// Yay we made it!
 			return new \WP_REST_Response(
 				array(
