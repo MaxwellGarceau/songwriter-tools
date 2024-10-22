@@ -24,7 +24,7 @@ class Logger_Init {
 		$this->log_file = $this->is_debug_enabled() && is_string( WP_DEBUG_LOG ) ? WP_DEBUG_LOG : WP_CONTENT_DIR . '/debug.log';
 
 		// Keep it simple for now
-		$this->log_level   = $this->get_default_log_level();
+		$this->log_level = $this->get_default_log_level();
 
 		$this->init_logger();
 	}

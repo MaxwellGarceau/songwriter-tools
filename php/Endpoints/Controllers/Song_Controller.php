@@ -2,8 +2,12 @@
 
 namespace Max_Garceau\Songwriter_Tools\Endpoints\Controllers;
 
-use Max_Garceau\Songwriter_Tools\Endpoints\Controllers\Storeable;
+use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Get_Title;
+use Max_Garceau\Songwriter_Tools\Endpoints\Actions\File_Upload;
+use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Create_Attachment;
+use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Generate_Metadata;
 use Max_Garceau\Songwriter_Tools\Services\Nonce_Service;
+use WP_REST_Request;
 
 class Song_Controller implements Storeable {
 
@@ -11,54 +15,35 @@ class Song_Controller implements Storeable {
 		private readonly Nonce_Service $nonce_service
 	) {}
 
-	public function store( $request ): \WP_REST_Response|\WP_Error {
-		// Get non-file parameters like the song title
-		$params = $request->get_params();
-		$title = sanitize_text_field( $params['title'] );
+	public function store( WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+		try {
+			// Action to get and sanitize the title
+			$get_title = new Get_Title($request);
+			$get_title->execute();
+			$title = $get_title->getTitle();
 
-		$file = $_FILES['song_file'];
+			// Action to handle file upload
+			$file_upload = new File_Upload($_FILES['song_file']);
+			$file_upload->execute();
+			$uploaded_file = $file_upload->getUploadedFile();
 
-		// Now handle the file upload
-		$upload_overrides = [ 'test_form' => false ];
+			// Action to create an attachment
+			$create_attachment = new Create_Attachment($title, $uploaded_file);
+			$create_attachment->execute();
+			$attachment_id = $create_attachment->getAttachmentId();
 
-		// Require wp_handle_upload if we don't have it
-		if ( ! function_exists( 'wp_handle_upload' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		}
-		$uploaded_file = wp_handle_upload( $file, $upload_overrides );
-
-		if ( isset( $uploaded_file['error'] ) ) {
-			return new \WP_Error( 'upload_error', $uploaded_file['error'], [ 'status' => 500 ] );
-		}
-
-		// Create an attachment in WordPress media library
-		$attachment = [
-			'guid'           => $uploaded_file['url'],
-			'post_mime_type' => $uploaded_file['type'],
-			'post_title'     => $title,
-			'post_content'   => '',
-			'post_status'    => 'inherit'
-		];
-
-		$attachment_id = wp_insert_attachment( $attachment, $uploaded_file['file'] );
-
-		if ( ! is_wp_error( $attachment_id ) ) {
-
-			// Generate metadata and update the database
-			require_once ABSPATH . 'wp-admin/includes/media.php';
-			require_once( ABSPATH . 'wp-admin/includes/image.php' );
-			$attachment_data = wp_generate_attachment_metadata( $attachment_id, $uploaded_file['file'] );
-			wp_update_attachment_metadata( $attachment_id, $attachment_data );
-
-			// TODO: If Song CPT exists then create a new song post
+			// Action to generate and update metadata
+			$generate_metadata = new Generate_Metadata($attachment_id, $uploaded_file['file']);
+			$generate_metadata->execute();
 
 			return new \WP_REST_Response( [
 				'message' => 'Song uploaded successfully!',
 				'attachment_id' => $attachment_id,
-				'file_url' => wp_get_attachment_url( $attachment_id )
+				'file_url' => wp_get_attachment_url($attachment_id)
 			], 200 );
-		}
 
-		return new \WP_Error( 'attachment_error', 'Failed to insert attachment into the media library.', [ 'status' => 500 ] );
+		} catch (\Exception $e) {
+			return new \WP_Error('error', $e->getMessage(), ['status' => 500]);
+		}
 	}
 }

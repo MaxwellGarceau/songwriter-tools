@@ -6,7 +6,7 @@ class Validation {
 
 	/**
 	 * Validate the song title
-	 * 
+	 *
 	 * Not type hinting the $param variable to avoid throwing fatal error which
 	 * would break validation
 	 */
@@ -17,7 +17,7 @@ class Validation {
 	/**
 	 * Sending song to the BE with the FormData object
 	 * Validating the $_FILES['song_file'] array
-	 * 
+	 *
 	 * Criteria
 	 * - File is present
 	 * - Allowed mime types (MP3 and WAV)
@@ -32,10 +32,10 @@ class Validation {
 		$file = $_FILES['song_file'];
 
 		// Define allowed MIME types (e.g., MP3 and WAV)
-		$allowed_mime_types = ['audio/mpeg', 'audio/wav'];
+		$allowed_mime_types = [ 'audio/mpeg', 'audio/wav' ];
 
 		// Validate MIME type
-		$finfo = finfo_open( FILEINFO_MIME_TYPE );
+		$finfo     = finfo_open( FILEINFO_MIME_TYPE );
 		$mime_type = finfo_file( $finfo, $file['tmp_name'] );
 		finfo_close( $finfo );
 
