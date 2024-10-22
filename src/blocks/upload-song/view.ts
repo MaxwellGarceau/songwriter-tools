@@ -99,6 +99,7 @@ function uploadSong(event: Event): void {
 			// Check if song upload was successful
 			if (success) {
 				setStatusMessage('Song uploaded successfully!', 'success');
+				clearForm();
 			} else {
 				setStatusMessage(message, 'error');
 			}
@@ -107,6 +108,14 @@ function uploadSong(event: Event): void {
 			// Catch any error thrown (including those from non-OK responses)
 			setStatusMessage(message, 'error');
 		});
+}
+
+function clearForm(): void {
+	const titleInput = document.getElementById('song-title') as HTMLInputElement;
+	const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+	titleInput.value = '';
+	fileInput.value = '';
 }
 
 // Helper function to show status messages

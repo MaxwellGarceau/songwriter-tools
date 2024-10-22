@@ -48,13 +48,16 @@ $context = wp_interactivity_data_wp_context( array(
 	<h3><?php echo esc_html__( 'Upload Your Song', 'songwriter-tools' ); ?></h3>
 
 	<form id="song-upload-form" data-wp-on--submit="actions.uploadSong">
+		<label for="song-file">Choose an MP3 or WAV file (max 15MB)</label>
 		<input 
 			type="file" 
 			id="song-file" 
 			accept="audio/*" 
 			required 
 			data-wp-on--change="actions.handleFileSelect" 
+			aria-label="Choose a song file. Only MP3 or WAV files less than 15MB are allowed."
 		/>
+		<label for="song-title"><?php esc_html_e( 'Song Title', 'songwriter-tools' ); ?></label>
 		<input 
 			type="text" 
 			id="song-title" 
