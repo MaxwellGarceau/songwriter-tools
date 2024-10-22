@@ -52,31 +52,27 @@ class Api {
 		register_rest_route(
 			self::NAMESPACE,
 			'/song',
-			[
+			array(
 				'methods'             => \WP_REST_Server::CREATABLE,
-				'callback'            => [ $this->song_controller, 'store' ],
-				'permission_callback' => [ $this->auth, 'permission_check' ],
-				'args'                => [
-					'title' => [
+				'callback'            => array( $this->song_controller, 'store' ),
+				'permission_callback' => array( $this->auth, 'permission_check' ),
+				'args'                => array(
+					'title' => array(
 						'required'          => true,
-						'validate_callback' => [ $this->validation, 'title' ],
-					],
-					'song_file' => [
-						'required'          => true,
-						'validate_callback' => [ $this->validation, 'song_file' ],
-					],
-				],
-			]
+						'validate_callback' => array( $this->validation, 'title' ),
+					),
+				),
+			)
 		);
 
 		register_rest_route(
 			self::NAMESPACE,
 			'/health-check',
-			[
+			array(
 				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => fn() => 'Health check passed!',
-				'permission_callback' => [ $this->auth, 'permission_check' ],
-			]
+				'permission_callback' => array( $this->auth, 'permission_check' ),
+			)
 		);
 	}
 }

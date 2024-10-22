@@ -79,14 +79,21 @@ function uploadSong(event: Event): void {
 		},
 		body: formData,  // Send the FormData object
 	})
+		// Check if response succeeded
 		.then(response => {
 			if (!response.ok) {
 				throw new Error('Error uploading song.');
 			}
 			return response.json();
 		})
-		.then(() => {
+		
+		// Check if song upload was successful
+		.then((data) => {
+			if (data.success) {
 			setStatusMessage('Song uploaded successfully!', 'success');
+			} else {
+				setStatusMessage(data.data.message, 'error');
+			}
 		})
 		.catch(error => {
 			setStatusMessage(error.message, 'error');

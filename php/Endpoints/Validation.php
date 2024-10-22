@@ -22,17 +22,17 @@ class Validation {
 	 * - File is present
 	 * - Allowed mime types (MP3 and WAV)
 	 * - File size is less than 15MB
+	 *
+	 * @param array $file The $_FILES['song_file'] array
 	 */
-	public function song_file(): bool|\WP_Error {
+	public function audio_file( array $file ): bool|\WP_Error {
 		// Ensure file is present and uploaded correctly
-		if ( empty( $_FILES['song_file'] ) || $_FILES['song_file']['error'] !== UPLOAD_ERR_OK ) {
+		if ( empty( $file ) || $file['error'] !== UPLOAD_ERR_OK ) {
 			return new \WP_Error( 'missing_file', 'File is missing or there was an error during the upload.' );
 		}
 
-		$file = $_FILES['song_file'];
-
 		// Define allowed MIME types (e.g., MP3 and WAV)
-		$allowed_mime_types = [ 'audio/mpeg', 'audio/wav' ];
+		$allowed_mime_types = array( 'audio/mpeg', 'audio/wav' );
 
 		// Validate MIME type
 		$finfo     = finfo_open( FILEINFO_MIME_TYPE );

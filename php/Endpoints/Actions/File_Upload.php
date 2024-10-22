@@ -11,7 +11,7 @@ class File_Upload implements Action_Command_Interface {
 	}
 
 	public function execute(): void {
-		$upload_overrides = [ 'test_form' => false ];
+		$upload_overrides = array( 'test_form' => false );
 
 		if ( ! function_exists( 'wp_handle_upload' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/file.php';

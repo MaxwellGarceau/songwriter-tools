@@ -8,13 +8,13 @@ class Create_Attachment implements Action_Command_Interface {
 	public function __construct( private string $title, private array $uploaded_file ) {}
 
 	public function execute(): void {
-		$attachment = [
+		$attachment = array(
 			'guid'           => $this->uploaded_file['url'],
 			'post_mime_type' => $this->uploaded_file['type'],
 			'post_title'     => $this->title,
 			'post_content'   => '',
 			'post_status'    => 'inherit',
-		];
+		);
 
 		$this->attachment_id = wp_insert_attachment( $attachment, $this->uploaded_file['file'] );
 
