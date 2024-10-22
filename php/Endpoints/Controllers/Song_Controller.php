@@ -6,8 +6,6 @@ use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Get_Title;
 use Max_Garceau\Songwriter_Tools\Endpoints\Actions\File_Upload;
 use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Create_Attachment;
 use Max_Garceau\Songwriter_Tools\Endpoints\Actions\Generate_Metadata;
-use Max_Garceau\Songwriter_Tools\Services\Nonce_Service;
-use Max_Garceau\Songwriter_Tools\Services\Nonce_Status;
 use Max_Garceau\Songwriter_Tools\Endpoints\Validation;
 use Monolog\Logger;
 use WP_REST_Request;
@@ -15,26 +13,15 @@ use WP_REST_Request;
 class Song_Controller implements Storeable {
 
 	public function __construct(
-		private readonly Nonce_Service $nonce_service,
 		private readonly Validation $validation,
-		private readonly Logger $logger
+		private readonly Logger $logger,
 	) {}
 
 	public function store( WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		try {
-
-			// Verify nonce
-			if ( $this->nonce_service->verify_nonce() === Nonce_Status::INVALID ) {
-				$this->logger->error( 'Invalid or expired nonce.' );
-				return new \WP_REST_Response(
-					array(
-						'message' => 'Invalid or expired nonce.',
-					),
-					403
-				);
-			}
-
 			// Validate the song_file
+			// Doing this here because WP isn't set up to handle file uploads
+			// in the args parameter of register_rest_route
 			$result = $this->validation->audio_file( $_FILES['song_file'] );
 			if ( is_wp_error( $result ) ) {
 				return new \WP_REST_Response(
@@ -71,6 +58,7 @@ class Song_Controller implements Storeable {
 					'message'       => 'Song uploaded successfully!',
 					'attachment_id' => $attachment_id,
 					'file_url'      => wp_get_attachment_url( $attachment_id ),
+					'success'       => true,
 				),
 				200
 			);

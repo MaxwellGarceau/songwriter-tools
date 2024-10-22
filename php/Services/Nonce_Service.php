@@ -17,8 +17,21 @@ enum Nonce_Status: int {
 
 class Nonce_Service {
 
-	// TODO: Should probably make this a more unique key
-	private const NONCE_KEY = 'upload_song_nonce';
+	/**
+	 * This nonce key MUST be 'wp_rest' to work with the WP REST API
+	 * We can't get the wp_rest nonce on the FE because we're using
+	 * the interactivity API.
+	 *
+	 * The interactivity API is not compatibile with scripts.
+	 *
+	 * There are work arounds (https://core.trac.wordpress.org/ticket/60647)
+	 * but they are not ideal.
+	 * 
+	 * Resources
+	 * https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/#cookie-authentication
+	 * https://wordpress.stackexchange.com/questions/377549/nonces-and-ajax-request-to-rest-api-and-verification#answer-377561
+	 */
+	private const NONCE_KEY = 'wp_rest'; // MUST be 'wp_rest'
 
 	public function create_nonce(): string {
 		return wp_create_nonce( self::NONCE_KEY );
@@ -29,8 +42,8 @@ class Nonce_Service {
 	 *
 	 * @return int|bool From the WP Codex - "1 if the nonce is valid and generated between 0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago. False if the nonce is invalid."
 	 */
-	public function verify_nonce(): Nonce_Status {
-		$result = check_ajax_referer( self::NONCE_KEY );
+	public function verify_nonce( string $nonce ): Nonce_Status {
+		$result = wp_verify_nonce( $nonce, self::NONCE_KEY );
 
 		// Use enum to avoid returning a mixed type
 		if ( $result === false ) {
