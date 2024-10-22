@@ -5,23 +5,9 @@ namespace Max_Garceau\Songwriter_Tools\Endpoints;
 use Max_Garceau\Songwriter_Tools\Endpoints\Auth;
 use Max_Garceau\Songwriter_Tools\Endpoints\Validation;
 use Max_Garceau\Songwriter_Tools\Endpoints\Controllers\Song_Controller;
+use Max_Garceau\Songwriter_Tools\Endpoints\Sanitization;
 
 class Api {
-
-	/**
-	 * @var Auth $auth An instance of the Auth class.
-	 */
-	private Auth $auth;
-
-	/**
-	 * @var Validation $validation An instance of the Validation class.
-	 */
-	private Validation $validation;
-
-	/**
-	 * @var Song_Controller $song_controller An instance of the Song_Controller class.
-	 */
-	private Song_Controller $song_controller;
 
 	const NAMESPACE = 'songwriter-tools/v1';
 
@@ -37,18 +23,24 @@ class Api {
 	 *
 	 * However, making a note here to check in on future routes added here for
 	 * long term app health.
+	 *
+	 * @param Auth $auth
+	 * @param Validation $validation
+	 * @param Sanitization $sanitization
+	 * @param Song_Controller $song_controller
 	 */
 	public function __construct(
-		Auth $auth,
-		Validation $validation,
-		Song_Controller $song_controller
+		private Auth $auth,
+		private Validation $validation,
+		private Sanitization $sanitization,
+		private Song_Controller $song_controller
 	) {
 		$this->auth            = $auth;
 		$this->validation      = $validation;
 		$this->song_controller = $song_controller;
+		$this->sanitization    = $sanitization;
 	}
 
-	// TODO: Add sanitization callbacks
 	public function register_routes(): void {
 		register_rest_route(
 			self::NAMESPACE,
@@ -61,6 +53,7 @@ class Api {
 					'title' => array(
 						'required'          => true,
 						'validate_callback' => array( $this->validation, 'title' ),
+						'sanitize_callback' => array( $this->sanitization, 'sanitize_input_text' ),
 					),
 				),
 			)

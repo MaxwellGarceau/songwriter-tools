@@ -26,7 +26,7 @@ class Nonce_Service {
 	 *
 	 * There are work arounds (https://core.trac.wordpress.org/ticket/60647)
 	 * but they are not ideal.
-	 * 
+	 *
 	 * Resources
 	 * https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/#cookie-authentication
 	 * https://wordpress.stackexchange.com/questions/377549/nonces-and-ajax-request-to-rest-api-and-verification#answer-377561

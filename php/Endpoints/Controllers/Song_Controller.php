@@ -19,9 +19,15 @@ class Song_Controller implements Storeable {
 
 	public function store( WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		try {
-			// Validate the song_file
-			// Doing this here because WP isn't set up to handle file uploads
-			// in the args parameter of register_rest_route
+			/**
+			 * Validate the song_file
+			 * Doing this here because WP isn't set up to handle file uploads
+			 * in the args parameter of register_rest_route
+			 *
+			 * Sanitization is being handled in the wp_handle_upload in the File_Upload action
+			 * You can see for yourself here:
+			 * https://github.com/WordPress/wordpress-develop/blob/b42f5f95417413ee6b05ef389e21b3a0d61d3370/src/wp-admin/includes/file.php#L802-L1075
+			 */
 			$result = $this->validation->audio_file( $_FILES['song_file'] );
 			if ( is_wp_error( $result ) ) {
 				return new \WP_REST_Response(
@@ -53,7 +59,7 @@ class Song_Controller implements Storeable {
 			$generate_metadata->execute();
 
 			// Create Song CPT
-			$song = array(
+			$song    = array(
 				'post_title'   => $title,
 				'post_content' => '', // TODO: Add lyrics here
 				'post_status'  => 'publish',
