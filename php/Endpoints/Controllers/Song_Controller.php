@@ -11,10 +11,10 @@ class Song_Controller implements Storeable {
 		// Ensure we have the necessary data
 		if ( ! isset( $params['meta']['song_file'] ) ) {
 			return new \WP_REST_Response(
-				array(
+				[
 					'success' => false,
 					'message' => __( 'Song file URL is missing.', 'songwriter-tools' ),
-				),
+				],
 				400
 			);
 		}
@@ -28,31 +28,31 @@ class Song_Controller implements Storeable {
 
 		// Create new post of custom post type "song"
 		$post_id = wp_insert_post(
-			array(
+			[
 				'post_title'  => $post_title,
 				'post_type'   => 'song',
 				'post_status' => 'publish',
-				'meta_input'  => array(
+				'meta_input'  => [
 					'song_file' => $song_file_url,
-				),
-			)
+				],
+			]
 		);
 
 		if ( is_wp_error( $post_id ) ) {
 			return new \WP_REST_Response(
-				array(
+				[
 					'success' => false,
 					'message' => __( 'Error creating post.', 'songwriter-tools' ),
-				),
+				],
 				500
 			);
 		}
 
 		return new \WP_REST_Response(
-			array(
+			[
 				'success' => true,
 				'post_id' => $post_id,
-			),
+			],
 			200
 		);
 	}

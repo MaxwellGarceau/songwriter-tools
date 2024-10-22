@@ -28,13 +28,13 @@ class Api {
 	/**
 	 * TODO: It's important that we don't unnecessarily couple the blocks
 	 * to a single backend.
-	 * 
+	 *
 	 * The song route is okay here because that route is specific to the theme.
-	 * 
+	 *
 	 * The upload-song button can be moved to another project with minimal tweaks
 	 * and be refactored to more generically accept user uploads
 	 * (e.g. images, videos, audio, etc).
-	 * 
+	 *
 	 * However, making a note here to check in on future routes added here for
 	 * long term app health.
 	 */
@@ -52,31 +52,31 @@ class Api {
 		register_rest_route(
 			self::NAMESPACE,
 			'/song',
-			array(
+			[
 				'methods'             => \WP_REST_Server::CREATABLE,
-				'callback'            => array( $this->song_controller, 'store' ),
-				'permission_callback' => array( $this->auth, 'permission_check' ),
-				'args'                => array(
-					'title' => array(
+				'callback'            => [ $this->song_controller, 'store' ],
+				'permission_callback' => [ $this->auth, 'permission_check' ],
+				'args'                => [
+					'title' => [
 						'required'          => true,
-						'validate_callback' => array( $this->validation, 'validate_title' ),
-					),
-					'meta'  => array(
+						'validate_callback' => [ $this->validation, 'validate_title' ],
+					],
+					'meta'  => [
 						'required'          => true,
-						'validate_callback' => array( $this->validation, 'validate_meta' ),
-					),
-				),
-			)
+						'validate_callback' => [ $this->validation, 'validate_meta' ],
+					],
+				],
+			]
 		);
 
 		register_rest_route(
 			self::NAMESPACE,
 			'/health-check',
-			array(
+			[
 				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => fn() => 'Health check passed!',
-				'permission_callback' => array( $this->auth, 'permission_check' ),
-			)
+				'permission_callback' => [ $this->auth, 'permission_check' ],
+			]
 		);
 	}
 }
