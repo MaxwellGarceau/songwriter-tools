@@ -28,11 +28,13 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
 
-// Initialize the plugin.
-$container = DI_Container::build_container();
-
-// Use the container to initialize the main plugin class
-$container->get( Songwriter_Tools::class )->init();
+/**
+ * Load the main plugin class.
+ * 
+ * The container will build if no instance has been initialized.
+ * Use the container to initialize the main plugin class
+ */
+(DI_Container::get_container()->get( Songwriter_Tools::class ))->init();
 
 /**
  * Registers a custom block category for Songwriter Tools.

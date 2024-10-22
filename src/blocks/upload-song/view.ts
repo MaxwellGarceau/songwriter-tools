@@ -78,7 +78,7 @@ function uploadSong(event: Event): void {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-WP-Nonce': (window as any).wpApiSettings.nonce,
+            'X-WP-Nonce': (window as any).songwriterToolsApiSettings.nonce,
         },
         body: JSON.stringify({
             title: titleInput.value,
