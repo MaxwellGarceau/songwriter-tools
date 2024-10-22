@@ -81,21 +81,28 @@ function uploadSong(event: Event): void {
 	})
 		// Check if response succeeded
 		.then(response => {
+			// If response is not OK, handle the error and get the message from the body
 			if (!response.ok) {
-				throw new Error('Error uploading song.');
+				// Display BE error to FE
+				return response.json().then(data => {
+					const message = data.message || 'An unknown error occurred';
+					// Throw an error with the message
+					throw new Error(`Error uploading song: ${message}`);
+				});
 			}
+			// If the response is OK, proceed to parse the JSON
 			return response.json();
 		})
-		
-		// Check if song upload was successful
-		.then((data) => {
+		.then(data => {
+			// Check if song upload was successful
 			if (data.success) {
-			setStatusMessage('Song uploaded successfully!', 'success');
+				setStatusMessage('Song uploaded successfully!', 'success');
 			} else {
-				setStatusMessage(data.data.message, 'error');
+				setStatusMessage(data.message, 'error');
 			}
 		})
 		.catch(error => {
+			// Catch any error thrown (including those from non-OK responses)
 			setStatusMessage(error.message, 'error');
 		});
 }
