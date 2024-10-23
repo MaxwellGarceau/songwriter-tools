@@ -1,7 +1,8 @@
 @forward 'css-variables';
 
 // Positioning and FE specific spacing
-@forward 'layout';
+@forward 'layout/layout';
+@forward 'layout/text-align';
 
 // Components - primarily styles
 @forward 'input';

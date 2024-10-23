@@ -1,0 +1,21 @@
+@use '../variables' as v;
+
+.has-text-align-center {
+    .song-upload-form {
+        &__input-file-button,
+        &__submit-button-container {
+            justify-content: center;
+        }
+
+        &__input-text,
+        &__label {
+            text-align: center;
+            margin: v.$songwriter-tools-small-spacing auto;
+            max-width: 300px;
+        }
+
+        &__label {
+            align-items: center;
+        }
+    }
+}

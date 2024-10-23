@@ -1,5 +1,5 @@
-@use 'variables' as v;
-@use 'styles/replace-file-input-mixin' as r;
+@use '../variables' as v;
+@use '../styles/replace-file-input-mixin' as r;
 
 // Label button overlayed on file input
 // TODO: I thought about putting this in input or label
