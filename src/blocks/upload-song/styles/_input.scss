@@ -18,4 +18,17 @@
 	&__input--file {
 		border: none;
 	}
+
+	&__input {
+		border: 1px solid var(--wp--preset--color--primary, v.$translucent-fallback-color);
+		border-radius: 4px;
+	}
+
+	&__input[type="text"] {
+		border-color: #ccc;
+	}
+
+	&__input[type="file"] {
+		width: 100%; // Trick to help label text wrap on small devices
+	}
 }

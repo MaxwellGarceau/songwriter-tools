@@ -1,10 +1,9 @@
 @use 'variables' as v;
 
 // Message style for the status message
-.song-upload-form {
+.wp-block-songwriter-tools-upload-song {
     .wp-block-status-message {
         margin: v.$songwriter-tools-medium-spacing 0 0;
         color: var(--songwriter-tools--preset--color--success);
-        text-align: center;
     }
 }

@@ -9,10 +9,5 @@
 		display: flex;
 		justify-content: center;
 		margin-top: v.$songwriter-tools-medium-spacing;
-
-		&__link {
-			padding: math.div(v.$songwriter-tools-large-spacing, 2) v.$songwriter-tools-large-spacing;
-			border-radius: 4px;
-		}
 	}
 }

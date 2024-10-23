@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'label-styles' as m;
 
 // Place outside of .wp-block-songwriter-tools-upload-song to avoid specificity issues
 .song-upload-form {
@@ -12,30 +13,26 @@
 		flex-direction: column;
 	}
 
-	&__label {
-		margin-bottom: v.$songwriter-tools-small-spacing;
-		font-style: italic;
-		font-size: .85rem;
-	}
-
 	&__label-content {
 		font-weight: bold;
 	}
 
-	&__input {
-		border: 1px solid var(--wp--preset--color--primary, v.$translucent-fallback-color);
-		border-radius: 4px;
-	}
-
-	&__input[type="file"] {
-		width: 100%; // Trick to help label text wrap on small devices
-	}
-	
-	&__input[type="text"] {
-		padding: v.$songwriter-tools-small-spacing;
+	&__label {
+		@include m.label-styles;
 	}
 
 	&__label[for="song-title"] {
 		padding-left: v.$songwriter-tools-small-spacing;
+	}
+
+	&__input[type="text"] {
+		padding: v.$songwriter-tools-small-spacing;
+	}
+
+}
+
+.wp-block-songwriter-tools-upload-song {
+	.wp-block-status-message {
+		text-align: center;
 	}
 }
