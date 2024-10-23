@@ -29,7 +29,7 @@ class Song_Controller implements Storeable {
 			 * You can see for yourself here:
 			 * https://github.com/WordPress/wordpress-develop/blob/b42f5f95417413ee6b05ef389e21b3a0d61d3370/src/wp-admin/includes/file.php#L802-L1075
 			 */
-			$result = $this->validation->audio_file( $_FILES['song_file'] );
+			$result = $this->validation->audio_file( $_FILES );
 			if ( is_wp_error( $result ) ) {
 				return new \WP_REST_Response(
 					array(

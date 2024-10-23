@@ -8,22 +8,19 @@ const storeNamespace = 'upload-block';
 
 type ServerState = {
 	state: {
-		title: string;
-		fileSelected: boolean;
 		nonce: string;
 	};
 };
 
 type Context = {
 	fileSelected: boolean;
+	allowedFileTypes: string[];
+	maxFileSize: number;
+	postId: number;
 };
 
 // Define the store
 const storeDef = store( storeNamespace, {
-	state: {
-		title: '',
-		fileSelected: false,
-	},
 	actions: {
 		handleFileSelect,
 		uploadSong,
@@ -32,32 +29,32 @@ const storeDef = store( storeNamespace, {
 
 // This function will handle file validation and selection
 function handleFileSelect(event: Event): void {
-	// TODO: Open WP Media library here...OR do we want to keep
-	// it to a file URL?
-	// Pros: We keep the /song endpoint, create attachment post on BE
-	// and open the possibility of integration with external services
 	const context = getContext<Context>();
 
 	const fileInput = event.target as HTMLInputElement;
-	const allowedTypes = ['audio/mpeg', 'audio/wav'];
 	const file = fileInput?.files?.[0];
 
-	if (!file || !allowedTypes.includes(file.type)) {
-		setStatusMessage('Only audio files are allowed.', 'error');
+	if (!file || !context.allowedFileTypes.includes(file.type)) {
+		setStatusMessage(`Allowed file types: ${context.allowedFileTypes.join('|')}`, 'error');
+		fileInput.value = '';  // Reset the file input
+		return;
+	}
+
+	if (getSizeInMb(file.size) > context.maxFileSize) {
+		setStatusMessage(`Allowed file size: ${context.maxFileSize}MB`, 'error');
 		fileInput.value = '';  // Reset the file input
 		return;
 	}
 
 	// Update the global state (context)
 	context.fileSelected = true;
-	console.log(`File selected: ${file.name}`);
 }
 
 // This function will handle the form submission and song upload
 function uploadSong(event: Event): void {
 	event.preventDefault();
 
-	const { fileSelected } = getContext<Context>();
+	const { fileSelected, postId } = getContext<Context>();
 	const titleInput = document.getElementById('song-title') as HTMLInputElement;
 
 	if (!fileSelected || !titleInput?.value) {
@@ -73,6 +70,7 @@ function uploadSong(event: Event): void {
 	// Add form fields
 	formData.append('title', titleInput.value);  // Song title
 	formData.append('song_file', file);          // The actual file
+	formData.append('post_id', postId ? postId.toString() : null);  // Default to false, we have fallback in REST endpoint
 
 	// Send a POST request to the REST API to create the new post
 	fetch(`${apiPath}/song`, {
@@ -125,6 +123,12 @@ function setStatusMessage(message: string, status: 'success' | 'error'): void {
 		messageElement.textContent = message;
 		messageElement.style.color = status === 'error' ? 'red' : 'green';
 	}
+}
+
+function getSizeInMb(sizeInBytes: number): number {
+	const sizeInMbFloat = sizeInBytes / (1024 * 1024);
+	// Round to 2 decimal places
+	return Math.round((sizeInMbFloat) * 100) / 100;
 }
 
 type Store = ServerState & typeof storeDef;

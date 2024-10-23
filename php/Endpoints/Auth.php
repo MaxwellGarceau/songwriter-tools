@@ -17,7 +17,7 @@ class Auth {
 		private readonly Logger $logger
 	) {}
 
-	public function permission_check( \WP_REST_Request $request ): bool {
+	public function permission_check( \WP_REST_Request $request ): bool|\WP_REST_Response {
 		$nonce = $request->get_header( 'X-WP-Nonce' );
 
 		/**

@@ -21,7 +21,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
     const [error, setError] = useState<string | null>(null);
 
     const fileTypeOptions = [
-        { label: 'MP3', value: 'audio/mpeg' },
+        { label: 'MPEG', value: 'audio/mpeg' },
         { label: 'WAV', value: 'audio/wav' },
     ];
 
