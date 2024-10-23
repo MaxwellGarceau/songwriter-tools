@@ -1,6 +1,8 @@
 @use 'variables' as v;
 
 // Message style for the status message
+// TODO: It might be worth breaking the color out into the /styles
+// subdirectory. For now, it doesn't seem worth it.
 .wp-block-songwriter-tools-upload-song {
     .wp-block-status-message {
         margin: v.$songwriter-tools-medium-spacing 0 0;

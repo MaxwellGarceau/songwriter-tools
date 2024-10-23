@@ -1,7 +1,7 @@
 @use '../variables' as v;
 
 @mixin input-styles {
-	border: 1px solid var(--wp--preset--color--primary, v.$translucent-fallback-color);
+	border: 1px solid var(--wp--preset--color--primary, v.$songwriter-tools-songwriter-tools-translucent-fallback-color);
 	border-radius: 4px;
 	outline: none; /* Remove the default outline */
 }
