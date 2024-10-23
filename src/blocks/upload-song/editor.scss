@@ -9,8 +9,8 @@
   *
   * TODO: Let's break this out if we have to come back and make changes
   */
-@use 'scss/styles/label-styles' as label;
-@use 'scss/styles/input-styles' as input;
+@use 'scss/styles/label-mixin' as label;
+@use 'scss/styles/input-mixin' as input;
 
 .wp-block-songwriter-tools-upload-song {
 	.song-upload-form {

@@ -1,4 +1,4 @@
-@use 'styles/input-styles' as input;
+@use 'styles/input-mixin' as input;
 
 .song-upload-form {
 	&__input {

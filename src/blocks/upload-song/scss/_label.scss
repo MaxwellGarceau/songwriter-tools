@@ -1,4 +1,4 @@
-@use 'styles/label-styles' as label;
+@use 'styles/label-mixin' as label;
 
 .song-upload-form {
     &__label {
