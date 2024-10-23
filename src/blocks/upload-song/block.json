@@ -35,6 +35,10 @@
 			"type": "string",
 			"default": null
 		},
+		"fontSize": {
+			"type": "string",
+			"default": "small"
+		  },
 		"allowedMimeTypes": {
 			"type": "array",
 			"items": {
