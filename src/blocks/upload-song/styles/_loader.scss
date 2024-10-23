@@ -1,7 +1,9 @@
 @forward 'css-variables';
+
+// Positioning and FE specific spacing
 @forward 'layout';
 
-// Components
+// Components - primarily styles
 @forward 'button';
 @forward 'input';
 @forward 'status-message';

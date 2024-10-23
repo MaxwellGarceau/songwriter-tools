@@ -21,12 +21,12 @@
 		@include m.label-styles;
 	}
 
-	&__label[for="song-title"] {
-		padding-left: v.$songwriter-tools-small-spacing;
+	&__input-text {
+		padding: v.$songwriter-tools-small-spacing;
 	}
 
-	&__input[type="text"] {
-		padding: v.$songwriter-tools-small-spacing;
+	&__input-file {
+		width: 100%; // Trick to help label text wrap on small devices
 	}
 
 }
