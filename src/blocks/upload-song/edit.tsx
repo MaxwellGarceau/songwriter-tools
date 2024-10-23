@@ -138,7 +138,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 				</div>
 
 				{/* Submit Button */}
-				<div className="wp-block-button">
+				<div className="song-upload-form__submit-button-container wp-block-button">
 					<button
 						type="submit"
 						className="wp-block-button__link"

@@ -12,6 +12,7 @@
 @use 'scss/styles/label-mixin' as label;
 @use 'scss/styles/input-mixin' as input;
 @use 'scss/styles/replace-file-input-mixin' as replace-file-input;
+@use 'scss/layout/text-align';
 
 .wp-block-songwriter-tools-upload-song {
 	.song-upload-form {
