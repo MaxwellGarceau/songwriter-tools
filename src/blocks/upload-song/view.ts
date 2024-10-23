@@ -15,6 +15,7 @@ type ServerState = {
 type Context = {
 	fileSelected: boolean;
 	allowedFileTypes: string[];
+	maxFileSize: number;
 };
 
 // Define the store
@@ -32,11 +33,14 @@ function handleFileSelect(event: Event): void {
 	const fileInput = event.target as HTMLInputElement;
 	const file = fileInput?.files?.[0];
 
-	console.log('file: ',file);
-	console.log('context: ',context.allowedFileTypes);
-
 	if (!file || !context.allowedFileTypes.includes(file.type)) {
 		setStatusMessage(`Allowed file types: ${context.allowedFileTypes.join('|')}`, 'error');
+		fileInput.value = '';  // Reset the file input
+		return;
+	}
+
+	if (getSizeInMb(file.size) > context.maxFileSize) {
+		setStatusMessage(`Allowed file size: ${context.maxFileSize}MB`, 'error');
 		fileInput.value = '';  // Reset the file input
 		return;
 	}
@@ -117,6 +121,12 @@ function setStatusMessage(message: string, status: 'success' | 'error'): void {
 		messageElement.textContent = message;
 		messageElement.style.color = status === 'error' ? 'red' : 'green';
 	}
+}
+
+function getSizeInMb(sizeInBytes: number): number {
+	const sizeInMbFloat = sizeInBytes / (1024 * 1024);
+	// Round to 2 decimal places
+	return Math.round((sizeInMbFloat) * 100) / 100;
 }
 
 type Store = ServerState & typeof storeDef;

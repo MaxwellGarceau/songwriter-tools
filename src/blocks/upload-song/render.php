@@ -33,6 +33,7 @@ wp_interactivity_state( $store_namespace, array(
 $context = wp_interactivity_data_wp_context( array(
 		'fileSelected' => false,
 		'allowedFileTypes' => $attributes['allowedMimeTypes'],
+		'maxFileSize' => $attributes['maxFileSize'],
 	),
 	$store_namespace
 );
