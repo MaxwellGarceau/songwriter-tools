@@ -5,7 +5,7 @@
         @include input.input-styles;
 	}
 
-	&__input-text {
-        @include input.text-input-styles;
+	&__input-file {
+		@include input.file-input-styles;
 	}
 }

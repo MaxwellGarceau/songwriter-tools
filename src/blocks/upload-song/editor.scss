@@ -48,13 +48,12 @@
 	
 		// Specific styling for file input
 		&__input--file {
+			@include input.file-input-styles;
 			border: none;
 			margin-bottom: 2px;
 		}
 	
 		&__input--text {
-			@include input.text-input-styles;
-
 			& .components-text-control__input[type="text"] {	
 				padding: 0.5rem;
 				border: 0;

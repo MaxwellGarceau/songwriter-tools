@@ -1,11 +1,12 @@
 @use '../variables' as v;
 
 @mixin input-styles {
-	border: 1px solid var(--wp--preset--color--primary, v.$songwriter-tools-songwriter-tools-translucent-fallback-color);
+	border: 1px solid var(--wp--preset--color--primary, v.$songwriter-tools-grey);
 	border-radius: 4px;
 	outline: none; /* Remove the default outline */
 }
 
-@mixin text-input-styles {
-	border-color: v.$songwriter-tools-grey;
+@mixin file-input-styles {
+	// border: none;
+	border-color: v.$songwriter-tools-translucent-fallback-color;
 }
