@@ -1,0 +1,11 @@
+@use 'styles/input-mixin' as input;
+
+.song-upload-form {
+	&__input {
+        @include input.input-styles;
+	}
+
+	&__input-file {
+		@include input.file-input-styles;
+	}
+}

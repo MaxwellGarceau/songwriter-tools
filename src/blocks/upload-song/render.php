@@ -53,13 +53,13 @@ $allowed_file_types_string = implode( '|', $allowed_file_types_labels );
 	data-wp-interactive="<?php echo $store_namespace; ?>"
 	<?php echo $context; ?>
 >
-	<<?php echo $attributes['headingTag']; ?>><?php echo esc_html__( $attributes['headingContent'], 'songwriter-tools' ); ?></<?php echo $attributes['headingTag']; ?>>
+	<<?php echo $attributes['headingTag']; ?> <?php if ( isset( $attributes['headingFontSize'] ) ) { echo 'style="font-size:' . $attributes['headingFontSize'] . '"'; } ?>><?php echo esc_html__( $attributes['headingContent'], 'songwriter-tools' ); ?></<?php echo $attributes['headingTag']; ?>>
 
 	<form id="song-upload-form" class="song-upload-form wp-block-form" data-wp-on--submit="actions.uploadSong">
 		<div class="song-upload-form__column">
-			<label for="song-file" class="song-upload-form__label wp-block-form-input__label"><span class="wp-block-form-input__label-content">Allowed file types: <?php echo $allowed_file_types_string; ?> (max <?php echo $attributes['maxFileSize']; ?>MB)</span></label>
+			<label for="song-file" class="song-upload-form__label wp-block-form-input__label"><span class="song-upload-form__label-content wp-block-form-input__label-content">Allowed file types: <?php echo $allowed_file_types_string; ?> (max <?php echo $attributes['maxFileSize']; ?>MB)</span></label>
 			<input 
-				class="song-upload-form__input wp-block-form-input"
+				class="song-upload-form__input song-upload-form__input-file wp-block-form-input"
 				type="file" 
 				id="song-file" 
 				accept="audio/*" 
@@ -69,9 +69,9 @@ $allowed_file_types_string = implode( '|', $allowed_file_types_labels );
 			/>
 		</div>
 		<div class="song-upload-form__column">
-			<label for="song-title" class="song-upload-form__label wp-block-form-input__label"><span class="wp-block-form-input__label-content"><?php esc_html_e( 'Song Title', 'songwriter-tools' ); ?></span></label>
+			<label for="song-title" class="song-upload-form__label wp-block-form-input__label"><span class="song-upload-form__label-content wp-block-form-input__label-content"><?php esc_html_e( 'Song Title', 'songwriter-tools' ); ?></span></label>
 			<input 
-				class="song-upload-form__input wp-block-form-input"
+				class="song-upload-form__input song-upload-form__input-text wp-block-form-input"
 				type="text" 
 				id="song-title" 
 				placeholder="<?php esc_attr_e( 'Song Title', 'songwriter-tools' ); ?>" 

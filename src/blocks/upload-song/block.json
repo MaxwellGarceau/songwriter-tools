@@ -31,6 +31,14 @@
 			"type": "string",
 			"default": "Upload Your Song"
 		},
+		"headingFontSize": {
+			"type": "string",
+			"default": null
+		},
+		"fontSize": {
+			"type": "string",
+			"default": "small"
+		  },
 		"allowedMimeTypes": {
 			"type": "array",
 			"items": {

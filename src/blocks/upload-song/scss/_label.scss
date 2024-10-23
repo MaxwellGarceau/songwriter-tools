@@ -1,0 +1,11 @@
+@use 'styles/label-mixin' as label;
+
+.song-upload-form {
+    &__label {
+		@include label.label-styles;
+	}
+
+	&__label-content {
+		@include label.label-content-styles;
+	}
+}
