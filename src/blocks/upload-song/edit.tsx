@@ -1,7 +1,8 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
-import { PanelBody, Notice, SelectControl, RangeControl, TextControl } from '@wordpress/components';
+import { PanelBody, Notice, SelectControl, RangeControl, TextControl, FontSizePicker } from '@wordpress/components';
 import { useState } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import * as React from 'react';
 
 interface SongUploadProps {
@@ -12,12 +13,13 @@ interface SongUploadProps {
         maxFileSize: number;
         allowedMimeTypes: string[];
         songTitle: string;
+        fontSize: number;
     };
     setAttributes: Function;
 }
 
 const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes }) => {
-    const { headingTag, headingContent, maxFileSize, allowedMimeTypes, songTitle } = attributes;
+    const { headingTag, headingContent, maxFileSize, allowedMimeTypes, songTitle, fontSize } = attributes;
     const [error, setError] = useState<string | null>(null);
 
     const fileTypeOptions = [
@@ -31,6 +33,11 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
         e.preventDefault();
         setError(__('This feature is only usable on the front end of the website.', 'upload-block'));
     };
+
+    // Access the predefined font sizes from theme.json
+    const themeFontSizes = useSelect((select) => {
+        return select('core/block-editor').getSettings().fontSizes || [];
+    }, []);
 
     const blockProps = useBlockProps({
         className: 'song-upload-block',
@@ -58,6 +65,12 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
                             { label: 'H6', value: 'h6' },
                         ]}
                         onChange={(value) => setAttributes({ headingTag: value })}
+                    />
+                    <FontSizePicker
+                        value={fontSize}
+                        onChange={(newSize) => setAttributes({ fontSize: newSize })}
+                        fontSizes={themeFontSizes} // default is empty array
+                        disableCustomFontSizes={true}
                     />
                     <TextControl
                         label={__('Heading Content', 'upload-block')}
