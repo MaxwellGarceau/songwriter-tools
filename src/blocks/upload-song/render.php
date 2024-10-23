@@ -40,16 +40,17 @@ $context = wp_interactivity_data_wp_context( array(
 
 ?>
 
-<div 
+<section 
 	<?php echo get_block_wrapper_attributes(); ?> 
 	data-wp-interactive="<?php echo $store_namespace; ?>"
 	<?php echo $context; ?>
 >
 	<h3><?php echo esc_html__( 'Upload Your Song', 'songwriter-tools' ); ?></h3>
 
-	<form id="song-upload-form" data-wp-on--submit="actions.uploadSong">
-		<label for="song-file">Choose an MP3 or WAV file (max 15MB)</label>
+	<form id="song-upload-form" class="wp-block-form" data-wp-on--submit="actions.uploadSong">
+		<label for="song-file" class="wp-block-form-input__label"><span class="wp-block-form-input__label-content">Choose an MP3 or WAV file (max 15MB)</span></label>
 		<input 
+			class="wp-block-form-input"
 			type="file" 
 			id="song-file" 
 			accept="audio/*" 
@@ -57,8 +58,9 @@ $context = wp_interactivity_data_wp_context( array(
 			data-wp-on--change="actions.handleFileSelect" 
 			aria-label="Choose a song file. Only MP3 or WAV files less than 15MB are allowed."
 		/>
-		<label for="song-title"><?php esc_html_e( 'Song Title', 'songwriter-tools' ); ?></label>
+		<label for="song-title" class="wp-block-form-input__label"><span class="wp-block-form-input__label-content"><?php esc_html_e( 'Song Title', 'songwriter-tools' ); ?></span></label>
 		<input 
+			class="wp-block-form-input"
 			type="text" 
 			id="song-title" 
 			placeholder="<?php esc_attr_e( 'Song Title', 'songwriter-tools' ); ?>" 
@@ -73,5 +75,5 @@ $context = wp_interactivity_data_wp_context( array(
 		</div>
 	</form>
 
-	<p id="song-upload-message" data-wp-bind--text="state.statusMessage"></p>
-</div>
+	<p id="song-upload-message" class="wp-block-status-message" data-wp-bind--text="state.statusMessage"></p>
+</section>
