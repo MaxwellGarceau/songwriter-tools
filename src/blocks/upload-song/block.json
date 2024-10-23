@@ -31,6 +31,10 @@
 			"type": "string",
 			"default": "Upload Your Song"
 		},
+		"headingFontSize": {
+			"type": "number",
+			"default": null
+		},
 		"allowedMimeTypes": {
 			"type": "array",
 			"items": {

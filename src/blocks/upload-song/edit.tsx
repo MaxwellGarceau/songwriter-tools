@@ -13,13 +13,13 @@ interface SongUploadProps {
 		maxFileSize: number;
 		allowedMimeTypes: string[];
 		songTitle: string;
-		fontSize: number;
+		headingFontSize: number;
 	};
 	setAttributes: Function;
 }
 
 const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes }) => {
-	const { headingTag, headingContent, maxFileSize, allowedMimeTypes, songTitle, fontSize } = attributes;
+	const { headingTag, headingContent, maxFileSize, allowedMimeTypes, songTitle, headingFontSize } = attributes;
 	const [error, setError] = useState<string | null>(null);
 
 	const fileTypeOptions = [
@@ -67,8 +67,8 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 						onChange={(value) => setAttributes({ headingTag: value })}
 					/>
 					<FontSizePicker
-						value={fontSize}
-						onChange={(newSize) => setAttributes({ fontSize: newSize })}
+						value={headingFontSize}
+						onChange={(newSize) => setAttributes({ headingFontSize: newSize })}
 						fontSizes={themeFontSizes} // default is empty array
 						disableCustomFontSizes={true}
 					/>
@@ -96,9 +96,11 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 				</PanelBody>
 			</InspectorControls>
 
+			{/** Heading */}
 			<RichText
 				tagName={headingTag}
 				value={headingContent}
+				style={{ fontSize: headingFontSize ? `${headingFontSize}` : undefined }}
 				onChange={(value) => setAttributes({ headingContent: value })}
 				placeholder={__('Enter heading...', 'upload-block')}
 			/>
