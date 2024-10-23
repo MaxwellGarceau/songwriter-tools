@@ -55,27 +55,30 @@ $allowed_file_types_string = implode( '|', $allowed_file_types_labels );
 >
 	<<?php echo $attributes['headingTag']; ?>><?php echo esc_html__( $attributes['headingContent'], 'songwriter-tools' ); ?></<?php echo $attributes['headingTag']; ?>>
 
-	<form id="song-upload-form" class="wp-block-form" data-wp-on--submit="actions.uploadSong">
-		<label for="song-file" class="wp-block-form-input__label"><span class="wp-block-form-input__label-content">Allowed file types: <?php echo $allowed_file_types_string; ?> (max <?php echo $attributes['maxFileSize']; ?>MB)</span></label>
-		<input 
-			class="wp-block-form-input"
-			type="file" 
-			id="song-file" 
-			accept="audio/*" 
-			required 
-			data-wp-on--change="actions.handleFileSelect" 
-			aria-label="Choose a song file. Only MP3 or WAV files less than 15MB are allowed."
-		/>
-		<label for="song-title" class="wp-block-form-input__label"><span class="wp-block-form-input__label-content"><?php esc_html_e( 'Song Title', 'songwriter-tools' ); ?></span></label>
-		<input 
-			class="wp-block-form-input"
-			type="text" 
-			id="song-title" 
-			placeholder="<?php esc_attr_e( 'Song Title', 'songwriter-tools' ); ?>" 
-			required 
-			data-wp-bind--value="context.title" 
-		/>
-
+	<form id="song-upload-form" class="song-upload-form wp-block-form" data-wp-on--submit="actions.uploadSong">
+		<div class="song-upload-form__column">
+			<label for="song-file" class="song-upload-form__label wp-block-form-input__label"><span class="wp-block-form-input__label-content">Allowed file types: <?php echo $allowed_file_types_string; ?> (max <?php echo $attributes['maxFileSize']; ?>MB)</span></label>
+			<input 
+				class="song-upload-form__input wp-block-form-input"
+				type="file" 
+				id="song-file" 
+				accept="audio/*" 
+				required 
+				data-wp-on--change="actions.handleFileSelect" 
+				aria-label="Choose a song file. Only MP3 or WAV files less than 15MB are allowed."
+			/>
+		</div>
+		<div class="song-upload-form__column">
+			<label for="song-title" class="song-upload-form__label wp-block-form-input__label"><span class="wp-block-form-input__label-content"><?php esc_html_e( 'Song Title', 'songwriter-tools' ); ?></span></label>
+			<input 
+				class="song-upload-form__input wp-block-form-input"
+				type="text" 
+				id="song-title" 
+				placeholder="<?php esc_attr_e( 'Song Title', 'songwriter-tools' ); ?>" 
+				required 
+				data-wp-bind--value="context.title" 
+			/>
+		</div>
 		<div class="wp-block-button">
 			<button type="submit" class="button button-primary wp-block-button__link wp-element-button">
 				<?php esc_html_e( 'Upload Song', 'songwriter-tools' ); ?>

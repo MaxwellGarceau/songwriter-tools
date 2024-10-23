@@ -5,10 +5,100 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+@use "sass:math";
+
+// TODO: Are there better WP defaults we could use here?
+:root {
+	--songwriter-tools--preset--color--success: #28a745;
+	--songwriter-tools--preset--color--error: var(--wp--preset--color--vivid-red, #dc3545);
+}
+
+$translucent-fallback-color: rgba(255, 255, 255, 0);
+$songwriter-tools-small-spacing: 0.5rem;
+$songwriter-tools-medium-spacing: 1rem;
+$songwriter-tools-large-spacing: 1.5rem;
+
 .wp-block-songwriter-tools-upload-song {
-	padding: 1em;
+	padding: $songwriter-tools-large-spacing;
 
 	.wp-block-button {
 		display: inline-block;
 	}
+}
+
+// Place outside of .wp-block-songwriter-tools-upload-song to avoid specificity issues
+.song-upload-form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $songwriter-tools-large-spacing;
+
+	&__column {
+		flex: 1 1 48%; // Two columns taking 48% of the width, with space for gap
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__label {
+		margin-bottom: $songwriter-tools-small-spacing;
+		font-style: italic;
+		font-size: .85rem;
+	}
+
+	&__label-content {
+		font-weight: bold;
+	}
+
+	&__input {
+		border: 1px solid var(--wp--preset--color--primary, $translucent-fallback-color);
+		border-radius: 4px;
+	}
+
+	&__input[type="file"] {
+		width: 100%; // Trick to help label text wrap on small devices
+	}
+	
+	&__input[type="text"] {
+		padding: $songwriter-tools-small-spacing;
+	}
+
+	&__label[for="song-title"] {
+		padding-left: $songwriter-tools-small-spacing;
+	}
+
+	input,
+	textarea,
+	select {
+		outline: none; /* Remove the default outline */
+	}
+
+	input:focus,
+	input[type="text"]:focus,
+	textarea:focus,
+	select:focus {
+		border-color: var(--wp--preset--color--primary, $translucent-fallback-color); /* Use WordPress primary color for the border */
+		box-shadow: none;
+	}
+
+	&__input--file {
+		border: none;
+	}
+
+	.wp-block-button {
+		flex-basis: 100%; // Full width for the button row
+		display: flex;
+		justify-content: center;
+		margin-top: $songwriter-tools-medium-spacing;
+
+		&__link {
+			padding: math.div($songwriter-tools-large-spacing, 2) $songwriter-tools-large-spacing;
+			border-radius: 4px;
+		}
+	}
+}
+
+// Message style for the status message
+.wp-block-status-message {
+	margin: $songwriter-tools-medium-spacing 0 0;
+	color: var(--songwriter-tools--preset--color--success);
+	text-align: center;
 }
