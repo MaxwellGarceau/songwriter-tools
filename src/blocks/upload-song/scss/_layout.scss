@@ -12,7 +12,6 @@
 
 	.wp-block-status-message {
 		margin: v.$songwriter-tools-medium-spacing 0 0;
-		text-align: center;
 	}
 }
 
@@ -44,7 +43,6 @@
 	.wp-block-button:not(&__input-file-button) {
 		flex-basis: 100%; // Full width for the button row
 		display: flex;
-		justify-content: center;
 		margin-top: v.$songwriter-tools-medium-spacing;
 
 	}
