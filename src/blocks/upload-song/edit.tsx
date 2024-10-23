@@ -125,7 +125,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 					</div>
 
 					<div className="song-upload-form__column">
-						<label htmlFor="song-title" className="song-upload-form-input__label">
+						<label htmlFor="song-title" className="song-upload-form__label">
 							<span className="song-upload-form__label-content wp-block-form-input__label-content">{__('Song Title', 'upload-block')}</span>
 						</label>
 						<TextControl
