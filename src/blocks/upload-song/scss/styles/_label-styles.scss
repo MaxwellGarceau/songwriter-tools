@@ -1,4 +1,4 @@
-@use 'variables' as v;
+@use '../variables' as v;
 
 @mixin label-styles {
     margin-bottom: v.$songwriter-tools-small-spacing;
