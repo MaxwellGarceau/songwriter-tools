@@ -8,22 +8,17 @@ const storeNamespace = 'upload-block';
 
 type ServerState = {
 	state: {
-		title: string;
-		fileSelected: boolean;
 		nonce: string;
 	};
 };
 
 type Context = {
 	fileSelected: boolean;
+	allowedFileTypes: string[];
 };
 
 // Define the store
 const storeDef = store( storeNamespace, {
-	state: {
-		title: '',
-		fileSelected: false,
-	},
 	actions: {
 		handleFileSelect,
 		uploadSong,
@@ -32,25 +27,22 @@ const storeDef = store( storeNamespace, {
 
 // This function will handle file validation and selection
 function handleFileSelect(event: Event): void {
-	// TODO: Open WP Media library here...OR do we want to keep
-	// it to a file URL?
-	// Pros: We keep the /song endpoint, create attachment post on BE
-	// and open the possibility of integration with external services
 	const context = getContext<Context>();
 
 	const fileInput = event.target as HTMLInputElement;
-	const allowedTypes = ['audio/mpeg', 'audio/wav'];
 	const file = fileInput?.files?.[0];
 
-	if (!file || !allowedTypes.includes(file.type)) {
-		setStatusMessage('Only audio files are allowed.', 'error');
+	console.log('file: ',file);
+	console.log('context: ',context.allowedFileTypes);
+
+	if (!file || !context.allowedFileTypes.includes(file.type)) {
+		setStatusMessage(`Allowed file types: ${context.allowedFileTypes.join('|')}`, 'error');
 		fileInput.value = '';  // Reset the file input
 		return;
 	}
 
 	// Update the global state (context)
 	context.fileSelected = true;
-	console.log(`File selected: ${file.name}`);
 }
 
 // This function will handle the form submission and song upload
