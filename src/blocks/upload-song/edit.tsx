@@ -20,6 +20,11 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
     const { headingTag, headingContent, maxFileSize, allowedMimeTypes, songTitle } = attributes;
     const [error, setError] = useState<string | null>(null);
 
+    const fileTypeOptions = [
+        { label: 'MP3', value: 'audio/mpeg' },
+        { label: 'WAV', value: 'audio/wav' },
+    ];
+
     const ALLOWED_MEDIA_TYPES = allowedMimeTypes.length ? allowedMimeTypes : ['audio/mpeg', 'audio/wav'];
 
     const handleError = async (e) => {
@@ -32,8 +37,11 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
     });
 
     const maxFileString = `(max ${maxFileSize}MB)`;
-    const maxFileSizeLabel = `${__('Choose an MP3 or WAV file', 'upload-block')} ${maxFileString}`;
 
+    const fileTypeLabel = fileTypeOptions.filter((option) => allowedMimeTypes.includes(option.value)).map((option) => option.label);
+    const allowedMimeTypesLabel = fileTypeLabel.join('|');
+
+    const maxFileSizeLabel = `${__('Allowed file types: ', 'upload-block')} ${allowedMimeTypesLabel} ${maxFileString}`;
     return (
         <div {...blockProps}>
             <InspectorControls>
@@ -62,10 +70,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
                         multiple
                         label={__('Allowed File Types', 'upload-block')}
                         value={allowedMimeTypes}
-                        options={[
-                            { label: 'MP3', value: 'audio/mpeg' },
-                            { label: 'WAV', value: 'audio/wav' },
-                        ]}
+                        options={fileTypeOptions}
                         onChange={(value: string[]) => setAttributes({ allowedMimeTypes: value })}
                     />
                     <RangeControl
