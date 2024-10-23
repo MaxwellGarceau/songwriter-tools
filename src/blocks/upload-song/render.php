@@ -83,7 +83,7 @@ $allowed_file_types_string = implode( '|', $allowed_file_types_labels );
 				data-wp-bind--value="context.title" 
 			/>
 		</div>
-		<div class="wp-block-button">
+		<div class="song-upload-form__submit-button-container wp-block-button">
 			<button type="submit" class="button button-primary wp-block-button__link wp-element-button">
 				<?php esc_html_e( 'Upload Song', 'songwriter-tools' ); ?>
 			</button>
