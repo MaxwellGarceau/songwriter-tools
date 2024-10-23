@@ -1,0 +1,38 @@
+@use 'variables' as v;
+@use 'label-styles' as m;
+
+// Place outside of .wp-block-songwriter-tools-upload-song to avoid specificity issues
+.song-upload-form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: v.$songwriter-tools-large-spacing;
+
+	&__column {
+		flex: 1 1 48%; // Two columns taking 48% of the width, with space for gap
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__label-content {
+		font-weight: bold;
+	}
+
+	&__label {
+		@include m.label-styles;
+	}
+
+	&__label[for="song-title"] {
+		padding-left: v.$songwriter-tools-small-spacing;
+	}
+
+	&__input[type="text"] {
+		padding: v.$songwriter-tools-small-spacing;
+	}
+
+}
+
+.wp-block-songwriter-tools-upload-song {
+	.wp-block-status-message {
+		text-align: center;
+	}
+}

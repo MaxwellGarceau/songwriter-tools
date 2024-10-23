@@ -92,29 +92,35 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 
             {error && <Notice status="error" onRemove={() => setError(null)}>{error}</Notice>}
 
-            <div className="wp-block-form">
-                <label htmlFor="song-title" className="wp-block-form-input__label">
-                    {__('Song Title', 'upload-block')}
-                </label>
-                <TextControl
-                    id="song-title"
-                    value={songTitle}
-                    onChange={(value) => setAttributes({ songTitle: value })}
-                    placeholder={__('Enter song title (this is only editable on the front of the website)', 'upload-block')}
-                    disabled={true}
-                />
+            <div className="song-upload-form wp-block-form">
+                <div className="song-upload-form__column">
+                    <label htmlFor="song-file" className="song-upload-form-input__label">
+                        {maxFileSizeLabel}
+                    </label>
+                    <input
+                        className="song-upload-form__input song-upload-form__input--file"
+                        type="file"
+                        id="song-file"
+                        accept={ALLOWED_MEDIA_TYPES.join(',')}
+                        onClick={handleError}
+                    />
+                </div>
 
-                <label htmlFor="song-file" className="wp-block-form-input__label">
-                    {maxFileSizeLabel}
-                </label>
-                <input
-                    className="wp-block-form-input"
-                    type="file"
-                    id="song-file"
-                    accept={ALLOWED_MEDIA_TYPES.join(',')}
-                    onClick={handleError}
-                />
+                <div className="song-upload-form__column">
+                    <label htmlFor="song-title" className="song-upload-form-input__label">
+                        {__('Song Title', 'upload-block')}
+                    </label>
+                    <TextControl
+                        id="song-title"
+                        value={songTitle}
+                        onChange={(value) => setAttributes({ songTitle: value })}
+                        placeholder={__('Song Title (Input on front end only)', 'upload-block')}
+                        disabled={true}
+                        className="song-upload-form__input song-upload-form__input--text"
+                    />
+                </div>
 
+                {/* Submit Button */}
                 <div className="wp-block-button">
                     <button
                         type="submit"

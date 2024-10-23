@@ -5,10 +5,4 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-songwriter-tools-upload-song {
-	padding: 1em;
-
-	.wp-block-button {
-		display: inline-block;
-	}
-}
+@use 'styles/loader';

@@ -10,7 +10,7 @@
 	"example": {},
 	"supports": {
 		"interactivity": true,
-		"align": true,
+		"align": false,
 		"html": false,
 		"color": {
 			"background": true,
@@ -19,7 +19,7 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
-			"textAlign": true
+			"textAlign": false
 		}
 	},
 	"attributes": {

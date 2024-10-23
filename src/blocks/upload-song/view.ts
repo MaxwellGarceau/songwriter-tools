@@ -121,7 +121,7 @@ function setStatusMessage(message: string, status: 'success' | 'error'): void {
 	const messageElement = document.getElementById('song-upload-message');
 	if (messageElement) {
 		messageElement.textContent = message;
-		messageElement.style.color = status === 'error' ? 'red' : 'green';
+		messageElement.style.color = status === 'error' ? 'var(--songwriter-tools--preset--color--error)' : 'var(--songwriter-tools--preset--color--success)';
 	}
 }
 

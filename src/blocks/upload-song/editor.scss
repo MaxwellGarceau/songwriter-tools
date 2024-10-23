@@ -4,9 +4,82 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+@use 'styles/label-styles' as m;
+
 .wp-block-songwriter-tools-upload-song input[type="text"] {
 	font-size: 1em;
 	color: inherit;
 	background: inherit;
 	border: 0;
+}
+
+.components-notice {
+	margin: .6rem 0;
+}
+
+.wp-block-songwriter-tools-upload-song {
+	.song-upload-form {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+	
+		&__column {
+			flex: 1 1 48%; // Two columns taking 48% of the width, with space for gap
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+		}
+	
+		&__label {
+			margin-bottom: 0.5rem;
+		}
+	
+		&__label-content {
+			font-weight: bold;
+		}
+
+		&-input__label {
+			@include m.label-styles;
+		}
+	
+		&__input {
+			border: 1px solid #ccc;
+			border-radius: 4px;
+
+			& > .components-base-control__field {
+				margin-bottom: 0;
+			}
+		}
+	
+		// Specific styling for file input
+		&__input--file {
+			border: none;
+			margin-bottom: 2px;
+		}
+	
+		&__input--text {
+			& .components-text-control__input[type="text"] {	
+				padding: 0.5rem;
+			}
+		}
+
+		.wp-block-button {
+			flex-basis: 100%; // Full width for the button row
+			display: flex;
+			justify-content: center;
+			margin-top: 1rem;
+		}
+	}
+	
+	// Message style for the status message
+	.wp-block-status-message {
+		margin-top: 1rem;
+		color: green;
+	}	
+}
+
+.wp-block-songwriter-tools-upload-song{
+	.wp-block-form__input {
+		max-width: 250px;
+	}
 }

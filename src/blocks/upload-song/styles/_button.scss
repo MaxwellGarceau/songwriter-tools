@@ -1,0 +1,13 @@
+@use 'sass:math';
+@use 'variables' as v;
+
+.wp-block-songwriter-tools-upload-song {
+	padding: v.$songwriter-tools-large-spacing;
+
+    .wp-block-button {
+		flex-basis: 100%; // Full width for the button row
+		display: flex;
+		justify-content: center;
+		margin-top: v.$songwriter-tools-medium-spacing;
+	}
+}
