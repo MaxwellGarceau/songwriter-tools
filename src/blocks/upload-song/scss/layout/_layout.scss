@@ -14,6 +14,11 @@
 }
 
 .song-upload-max-width-container {
+	// Content width settings
+	max-width: var(--wp--style--global--content-size, 1200px);
+	margin-left: auto;
+	margin-right: auto;
+
 	padding: v.$songwriter-tools-large-spacing;
 }
 
@@ -31,6 +36,7 @@
 
 	&__input-text {
 		padding: v.$songwriter-tools-small-spacing;
+		max-width: 250px;
 	}
 
 	&__input-file {
