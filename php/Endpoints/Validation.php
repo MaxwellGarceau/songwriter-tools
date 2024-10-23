@@ -9,8 +9,8 @@ class Validation {
 		'max_file_size_mb'   => 15,  // 15MB
 	);
 
-	// TODO: This doesn't belong here
-	const BLOCK_NAME = 'songwriter-tools/upload-song';
+	// TODO: This doesn't belong here. Leaving for now, but let's revisit this.
+	const UPLOAD_BLOCK_NAME = 'songwriter-tools/upload-song';
 
 	/**
 	 * Validate the song title
@@ -56,46 +56,57 @@ class Validation {
 
 		// Validate file size (limit to 15MB)
 		// Convert the max file size from MB to bytes
-		// TODO: Refactor this. It's confusing.
 		$max_file_size_mb = $file_restrictions['max_file_size_mb'];
 		if ( $file['size'] > $this->convert_megabytes_to_bytes( $max_file_size_mb ) ) {
 			return new \WP_Error( 'file_too_large', "File size exceeds the maximum limit of {$max_file_size_mb}MB." );
 		}
 
-		// If validation passes, return true
 		return true;
 	}
 
-	// TODO: Refactor this to be neater
+	/**
+	 * Get file restrictions from the Song Upload block in whatever post/page
+	 * this request was sent from
+	 *
+	 * Fallback to default restrictions if block or attributes aren't found
+	 * Example: The rest request comes from another music service
+	 *
+	 * On a sidenote, what a mouthful this method is
+	 * Good thing it's in here and not in our controller or audio_file validation method =)
+	 *
+	 * @param array $file The $_FILES array
+	 * @return array The file restrictions
+	 */
 	private function get_file_restrictions( array $file ): array {
 		$file_restrictions = self::FILE_RESTRICTION_DEFAULTS;
 
-		$post_id = isset( $file['post_id'] ) ? absint( isset( $file['post_id'] ) ) : null; // sanitize first
-		if ( ! is_null( $post_id ) && is_numeric( $post_id ) ) {
-			$post = get_post( $post_id );
+		// Sanitize post ID if available
+		$post_id = isset( $file['post_id'] ) ? absint( $file['post_id'] ) : null;
+		if ( ! $post_id ) {
+			return $file_restrictions;
+		}
 
-			if ( is_a( $post, \WP_Post::class ) ) {
-				$blocks = parse_blocks( $post->post_content );
-				$attrs  = array();
+		// Retrieve post object and validate it
+		$post = get_post( $post_id );
+		if ( ! is_a( $post, \WP_Post::class ) ) {
+			return $file_restrictions;
+		}
 
-				foreach ( $blocks as $block ) {
-					if ( $block['blockName'] === self::BLOCK_NAME ) {
-						$attrs = $block['attrs'];
-						continue;
-					}
-				}
+		// Parse blocks in post content
+		$blocks = parse_blocks( $post->post_content );
+		foreach ( $blocks as $block ) {
+			if ( $block['blockName'] === self::UPLOAD_BLOCK_NAME ) {
+				$attrs = $block['attrs'] ?? array();
 
-				// Get file restrictions from the Song Upload block
-				// Fallback to defaults here
-				if ( ! empty( $attrs ) ) {
-					$file_restrictions = array(
-						'allowed_mime_types' => isset( $attrs['allowedMimeTypes'] ) ? $attrs['allowedMimeTypes'] : self::FILE_RESTRICTION_DEFAULTS['allowed_mime_types'],
-						'max_file_size_mb'   => isset( $attrs['maxFileSize'] ) ? $attrs['maxFileSize'] : self::FILE_RESTRICTION_DEFAULTS['max_file_size_mb'],
-					);
-				}
+				// Get file restrictions from the block, with fallback to defaults
+				return array(
+					'allowed_mime_types' => $attrs['allowedMimeTypes'] ?? self::FILE_RESTRICTION_DEFAULTS['allowed_mime_types'],
+					'max_file_size_mb'   => $attrs['maxFileSize'] ?? self::FILE_RESTRICTION_DEFAULTS['max_file_size_mb'],
+				);
 			}
 		}
 
+		// Return defaults if block or attributes aren't found
 		return $file_restrictions;
 	}
 
