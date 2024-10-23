@@ -42,7 +42,12 @@ class Nonce_Service {
 	 *
 	 * @return int|bool From the WP Codex - "1 if the nonce is valid and generated between 0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago. False if the nonce is invalid."
 	 */
-	public function verify_nonce( string $nonce ): Nonce_Status {
+	public function verify_nonce( string $nonce = null ): Nonce_Status {
+		// Bail early
+		if ( is_null( null ) ) {
+			return Nonce_Status::INVALID;
+		}
+
 		$result = wp_verify_nonce( $nonce, self::NONCE_KEY );
 
 		// Use enum to avoid returning a mixed type

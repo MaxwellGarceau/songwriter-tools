@@ -26,19 +26,24 @@ $store_namespace = 'upload-block';
 
 // Enqueue global state using the WordPress Interactivity API.
 // Add nonce and ajax_url to the global state
-wp_interactivity_state( $store_namespace, array(
-	'nonce' => $nonce_service->create_nonce(),
-));
+wp_interactivity_state(
+	$store_namespace,
+	array(
+		'nonce' => $nonce_service->create_nonce(),
+	)
+);
 
-$context = wp_interactivity_data_wp_context( array(
-		'fileSelected' => false,
+$context = wp_interactivity_data_wp_context(
+	array(
+		'fileSelected'     => false,
 		'allowedFileTypes' => $attributes['allowedMimeTypes'],
-		'maxFileSize' => $attributes['maxFileSize'],
+		'maxFileSize'      => $attributes['maxFileSize'],
+		'postId'           => get_the_ID(),
 	),
 	$store_namespace
 );
 
-$allowed_file_types_labels = array_map( fn($f) => strtoupper( ltrim( $f, 'audio/' ) ), $attributes['allowedMimeTypes'] );
+$allowed_file_types_labels = array_map( fn( $f ) => strtoupper( ltrim( $f, 'audio/' ) ), $attributes['allowedMimeTypes'] );
 $allowed_file_types_string = implode( '|', $allowed_file_types_labels );
 
 ?>
@@ -51,7 +56,7 @@ $allowed_file_types_string = implode( '|', $allowed_file_types_labels );
 	<<?php echo $attributes['headingTag']; ?>><?php echo esc_html__( $attributes['headingContent'], 'songwriter-tools' ); ?></<?php echo $attributes['headingTag']; ?>>
 
 	<form id="song-upload-form" class="wp-block-form" data-wp-on--submit="actions.uploadSong">
-		<label for="song-file" class="wp-block-form-input__label"><span class="wp-block-form-input__label-content">Allowed file types: <?php echo $allowed_file_types_string; ?> (max <?php echo $attributes['maxFileSize'] ?>MB)</span></label>
+		<label for="song-file" class="wp-block-form-input__label"><span class="wp-block-form-input__label-content">Allowed file types: <?php echo $allowed_file_types_string; ?> (max <?php echo $attributes['maxFileSize']; ?>MB)</span></label>
 		<input 
 			class="wp-block-form-input"
 			type="file" 

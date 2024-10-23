@@ -16,6 +16,7 @@ type Context = {
 	fileSelected: boolean;
 	allowedFileTypes: string[];
 	maxFileSize: number;
+	postId: number;
 };
 
 // Define the store
@@ -53,7 +54,7 @@ function handleFileSelect(event: Event): void {
 function uploadSong(event: Event): void {
 	event.preventDefault();
 
-	const { fileSelected } = getContext<Context>();
+	const { fileSelected, postId } = getContext<Context>();
 	const titleInput = document.getElementById('song-title') as HTMLInputElement;
 
 	if (!fileSelected || !titleInput?.value) {
@@ -69,6 +70,7 @@ function uploadSong(event: Event): void {
 	// Add form fields
 	formData.append('title', titleInput.value);  // Song title
 	formData.append('song_file', file);          // The actual file
+	formData.append('post_id', postId ? postId.toString() : null);  // Default to false, we have fallback in REST endpoint
 
 	// Send a POST request to the REST API to create the new post
 	fetch(`${apiPath}/song`, {
