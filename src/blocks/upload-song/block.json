@@ -9,7 +9,39 @@
 	"description": "Upload music to the WP Media library from the front end of your website",
 	"example": {},
 	"supports": {
-		"interactivity": true
+		"interactivity": true,
+		"align": true,
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"textAlign": true
+		}
+	},
+	"attributes": {
+		"headingTag": {
+			"type": "string",
+			"default": "h3"
+		},
+		"headingContent": {
+			"type": "string",
+			"default": "Upload Your Song"
+		},
+		"allowedMimeTypes": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": ["audio/mpeg", "audio/wav"]
+		},
+		"maxFileSize": {
+			"type": "number",
+			"default": 15
+		}
 	},
 	"textdomain": "upload-song",
 	"editorScript": "file:./index.js",
