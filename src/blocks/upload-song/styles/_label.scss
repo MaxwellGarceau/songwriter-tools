@@ -1,0 +1,7 @@
+@use 'label-styles' as label;
+
+.song-upload-form {
+    &__label {
+		@include label.label-styles;
+	}
+}

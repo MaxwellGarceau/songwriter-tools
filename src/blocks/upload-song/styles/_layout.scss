@@ -1,5 +1,4 @@
 @use 'variables' as v;
-@use 'label-styles' as m;
 
 // Place outside of .wp-block-songwriter-tools-upload-song to avoid specificity issues
 .song-upload-form {
@@ -15,10 +14,6 @@
 
 	&__label-content {
 		font-weight: bold;
-	}
-
-	&__label {
-		@include m.label-styles;
 	}
 
 	&__input-text {

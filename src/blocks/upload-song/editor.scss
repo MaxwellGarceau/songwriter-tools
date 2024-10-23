@@ -4,6 +4,11 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+ /**
+  * Keeping everything in the editor.scss file for now
+  *
+  * TODO: Let's break this out if we have to come back and make changes
+  */
 @use 'styles/label-styles' as label;
 @use 'styles/input-styles' as input;
 
@@ -33,6 +38,7 @@
 		}
 	
 		&__input {
+			max-width: 250px;
 			@include input.input-styles;
 
 			& > .components-base-control__field {
@@ -63,14 +69,10 @@
 		}
 	}
 
+	// Outside of the form
+
 	.components-notice {
 		margin: .6rem 0;
 	}
 	
-}
-
-.wp-block-songwriter-tools-upload-song{
-	.wp-block-form__input {
-		max-width: 250px;
-	}
 }
