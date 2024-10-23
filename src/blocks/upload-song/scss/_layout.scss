@@ -1,4 +1,20 @@
 @use 'variables' as v;
+@use 'styles/replace-file-input-mixin' as r;
+
+// Label button overlayed on file input
+// TODO: I thought about putting this in input or label
+// but it's really a combination of both
+// Puttting here until I have a better place to put it
+@include r.file-input-remove-default-select-button(".song-upload-form__input-file", ".song-upload-form__input-file-button");
+
+.wp-block-songwriter-tools-upload-song {
+	padding: v.$songwriter-tools-large-spacing;
+
+	.wp-block-status-message {
+		margin: v.$songwriter-tools-medium-spacing 0 0;
+		text-align: center;
+	}
+}
 
 // Place outside of .wp-block-songwriter-tools-upload-song to avoid specificity issues
 .song-upload-form {
@@ -20,10 +36,16 @@
 		width: 100%; // Trick to help label text wrap on small devices
 	}
 
-}
+	&__file-selected {
+		margin-top: v.$songwriter-tools-small-spacing;
+	}
 
-.wp-block-songwriter-tools-upload-song {
-	.wp-block-status-message {
-		text-align: center;
+	// Layout specific styling for default wp-block-button
+	.wp-block-button:not(&__input-file-button) {
+		flex-basis: 100%; // Full width for the button row
+		display: flex;
+		justify-content: center;
+		margin-top: v.$songwriter-tools-medium-spacing;
+
 	}
 }

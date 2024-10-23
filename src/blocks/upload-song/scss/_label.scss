@@ -1,4 +1,5 @@
 @use 'styles/label-mixin' as label;
+@use 'variables' as v;
 
 .song-upload-form {
     &__label {
@@ -7,5 +8,10 @@
 
 	&__label-content {
 		@include label.label-content-styles;
+	}
+
+	// This is a label in a <span>
+	&__file-selected {
+		font-weight: v.$songwriter-tools-bold;
 	}
 }

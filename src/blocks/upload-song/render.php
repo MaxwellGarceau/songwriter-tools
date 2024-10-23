@@ -57,7 +57,11 @@ $allowed_file_types_string = implode( '|', $allowed_file_types_labels );
 
 	<form id="song-upload-form" class="song-upload-form wp-block-form" data-wp-on--submit="actions.uploadSong">
 		<div class="song-upload-form__column">
-			<label for="song-file" class="song-upload-form__label wp-block-form-input__label"><span class="song-upload-form__label-content wp-block-form-input__label-content">Allowed file types: <?php echo $allowed_file_types_string; ?> (max <?php echo $attributes['maxFileSize']; ?>MB)</span></label>
+			<span class="song-upload-form__label"><span class="song-upload-form__label-content">Allowed file types: <?php echo $allowed_file_types_string; ?> (max <?php echo $attributes['maxFileSize']; ?>MB)</span></span>
+			<label for="song-file" class="song-upload-form__input-file-button wp-block-button">
+				<span class="button button-primary wp-block-button__link wp-element-button">Select song</span>
+			</label>
+			<span class="song-upload-form__file-selected">No file chosen</span>
 			<input 
 				class="song-upload-form__input song-upload-form__input-file wp-block-form-input"
 				type="file" 

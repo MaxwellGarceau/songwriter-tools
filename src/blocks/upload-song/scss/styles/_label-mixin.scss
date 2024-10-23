@@ -3,9 +3,9 @@
 @mixin label-styles {
     margin-bottom: v.$songwriter-tools-small-spacing;
     font-style: italic;
-    // font-size: .85rem;
+    // font-size: .85rem; // TODO: Add back in if we want to lock this down
 }
 
 @mixin label-content-styles {
-    font-weight: 300;
+    font-weight: v.$songwriter-tools-light;
 }

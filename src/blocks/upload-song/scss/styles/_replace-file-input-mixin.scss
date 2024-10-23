@@ -1,0 +1,18 @@
+/**
+ * Remove the default styling from the select button from a file input
+ *
+ * Source/Attribution: https://stackoverflow.com/questions/572768/styling-an-input-type-file-button#answer-25825731
+ */
+ @mixin file-input-remove-default-select-button($input, $label) {
+	#{$input} {
+		// Must use visibility hidden
+        // display: none breaks form submission
+        visibility: hidden;
+        height: 1px;
+	}
+
+	#{$label} {
+		display: inline-flex;
+		cursor: pointer;
+	}
+}

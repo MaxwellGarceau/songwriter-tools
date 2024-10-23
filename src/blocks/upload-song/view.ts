@@ -33,18 +33,24 @@ function handleFileSelect(event: Event): void {
 
 	const fileInput = event.target as HTMLInputElement;
 	const file = fileInput?.files?.[0];
+	const fileSelectDisplay = document.querySelector('.song-upload-form__file-selected');
 
 	if (!file || !context.allowedFileTypes.includes(file.type)) {
 		setStatusMessage(`Allowed file types: ${context.allowedFileTypes.join('|')}`, 'error');
 		fileInput.value = '';  // Reset the file input
+		fileSelectDisplay.textContent = 'No file chosen';
 		return;
 	}
 
 	if (getSizeInMb(file.size) > context.maxFileSize) {
 		setStatusMessage(`Allowed file size: ${context.maxFileSize}MB`, 'error');
 		fileInput.value = '';  // Reset the file input
+		fileSelectDisplay.textContent = 'No file chosen';
 		return;
 	}
+
+	// Set the selected file name in the UI
+	fileSelectDisplay.textContent = file.name;
 
 	// Update the global state (context)
 	context.fileSelected = true;
@@ -64,7 +70,7 @@ function uploadSong(event: Event): void {
 
 	// Create a FormData object to send the actual file
 	const formData = new FormData();
-	const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+	const fileInput = document.querySelector('.song-upload-form__input-file') as HTMLInputElement;
 	const file = fileInput.files?.[0];
 
 	// Add form fields
@@ -110,7 +116,7 @@ function uploadSong(event: Event): void {
 
 function clearForm(): void {
 	const titleInput = document.getElementById('song-title') as HTMLInputElement;
-	const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+	const fileInput = document.querySelector('.song-upload-form__input-file') as HTMLInputElement;
 
 	titleInput.value = '';
 	fileInput.value = '';
