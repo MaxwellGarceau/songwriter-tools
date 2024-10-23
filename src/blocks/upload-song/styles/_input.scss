@@ -1,13 +1,11 @@
-@use 'variables' as v;
+@use 'input-styles' as m;
 
 .song-upload-form {
 	&__input {
-		border: 1px solid var(--wp--preset--color--primary, v.$translucent-fallback-color);
-		border-radius: 4px;
-		outline: none; /* Remove the default outline */
+        @include m.input-styles;
 	}
 
 	&__input-text {
-		border-color: #ccc;
+        @include m.text-input-styles;
 	}
 }
