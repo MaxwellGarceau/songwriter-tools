@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { useBlockProps, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { Button, Notice } from '@wordpress/components';
+import { Button, Notice, TextControl } from '@wordpress/components';
 import { MediaItem } from '@wordpress/media-utils';
 import * as React from 'react';
 
@@ -68,6 +68,12 @@ const SongUploadBlock: React.FC<SongUploadProps> = ( { attributes, setAttributes
                     {__('Upload Song', 'upload-block')}
                 </button>
             </div>
+            {/* WordPress TextControl component for input fields */}
+            <TextControl
+                label={__('Song Title', 'upload-block')}
+                placeholder={__('Song Title', 'upload-block')}
+                disabled={true}
+            />
         </div>
     );
 };
