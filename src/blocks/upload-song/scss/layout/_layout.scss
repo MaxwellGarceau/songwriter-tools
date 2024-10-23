@@ -8,11 +8,18 @@
 @include r.file-input-remove-default-select-button(".song-upload-form__input-file", ".song-upload-form__input-file-button");
 
 .wp-block-songwriter-tools-upload-song {
-	padding: v.$songwriter-tools-large-spacing;
-
 	.wp-block-status-message {
 		margin: v.$songwriter-tools-medium-spacing 0 0;
 	}
+}
+
+.song-upload-max-width-container {
+	// Content width settings
+	max-width: var(--wp--style--global--content-size, 1200px);
+	margin-left: auto;
+	margin-right: auto;
+
+	padding: v.$songwriter-tools-large-spacing;
 }
 
 // Place outside of .wp-block-songwriter-tools-upload-song to avoid specificity issues
@@ -29,6 +36,7 @@
 
 	&__input-text {
 		padding: v.$songwriter-tools-small-spacing;
+		max-width: 250px;
 	}
 
 	&__input-file {

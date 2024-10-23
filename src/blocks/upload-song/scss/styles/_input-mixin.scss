@@ -2,7 +2,7 @@
 
 @mixin input-styles {
 	border: 1px solid var(--wp--preset--color--primary, v.$songwriter-tools-grey);
-	border-radius: 4px;
+	border-radius: v.$songwriter-tools-border-radius;
 	outline: none;
 }
 
