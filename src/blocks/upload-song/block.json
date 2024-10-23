@@ -15,6 +15,11 @@
 		"color": {
 			"background": true,
 			"text": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"textAlign": true
 		}
 	},
 	"textdomain": "upload-song",
