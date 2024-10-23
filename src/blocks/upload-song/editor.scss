@@ -11,6 +11,7 @@
   */
 @use 'scss/styles/label-mixin' as label;
 @use 'scss/styles/input-mixin' as input;
+@use 'scss/styles/replace-file-input-mixin' as replace-file-input;
 
 .wp-block-songwriter-tools-upload-song {
 	.song-upload-form {
@@ -22,7 +23,6 @@
 			flex: 1 1 48%; // Two columns taking 48% of the width, with space for gap
 			display: flex;
 			flex-direction: column;
-			justify-content: space-around;
 		}
 	
 		&__label {
@@ -47,31 +47,34 @@
 		}
 	
 		// Specific styling for file input
-		&__input--file {
+		&__input-file {
 			@include input.file-input-styles;
 			border: none;
 			margin-bottom: 2px;
 		}
 	
-		&__input--text {
-			& .components-text-control__input[type="text"] {	
+		&__input-text {
+			padding: 0;
+			.components-text-control__input[type="text"] {	
 				padding: 0.5rem;
 				border: 0;
 			}
 		}
 
-		.wp-block-button {
+		.wp-block-button:not(&__input-file-button) {
 			flex-basis: 100%; // Full width for the button row
 			display: flex;
 			justify-content: center;
 			margin-top: 1rem;
 		}
+
+		// Replace default file upload button with it's label (styled like a WP button)
+		@include replace-file-input.file-input-remove-default-select-button(".song-upload-form__input--file", ".song-upload-form__input--file-button");
 	}
 
 	// Outside of the form
-
 	.components-notice {
 		margin: .6rem 0;
 	}
-	
+
 }

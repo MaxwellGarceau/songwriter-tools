@@ -109,11 +109,13 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 
 			<div className="song-upload-form wp-block-form">
 				<div className="song-upload-form__column">
-					<label htmlFor="song-file" className="song-upload-form-input__label">
-					<span className="song-upload-form__label-content wp-block-form-input__label-content">{maxFileSizeLabel}</span>
+				<span className="song-upload-form__label"><span className="song-upload-form__label-content wp-block-form-input__label-content">{maxFileSizeLabel}</span></span>
+					<label htmlFor="song-file" className="song-upload-form__input-file-button wp-block-button">
+						<span className="button button-primary wp-block-button__link wp-element-button">Select song</span>
 					</label>
+					<span className="song-upload-form__file-selected">No file chosen</span>
 					<input
-						className="song-upload-form__input song-upload-form__input--file"
+						className="song-upload-form__input song-upload-form__input-file"
 						type="file"
 						id="song-file"
 						accept={ALLOWED_MEDIA_TYPES.join(',')}
@@ -123,7 +125,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 
 				<div className="song-upload-form__column">
 					<label htmlFor="song-title" className="song-upload-form-input__label">
-					<span className="song-upload-form__label-content wp-block-form-input__label-content">{__('Song Title', 'upload-block')}</span>
+						<span className="song-upload-form__label-content wp-block-form-input__label-content">{__('Song Title', 'upload-block')}</span>
 					</label>
 					<TextControl
 						id="song-title"
@@ -131,7 +133,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 						onChange={(value) => setAttributes({ songTitle: value })}
 						placeholder={__('Song Title (Input on front end only)', 'upload-block')}
 						disabled={true}
-						className="song-upload-form__input song-upload-form__input--text"
+						className="song-upload-form__input song-upload-form__input-text"
 					/>
 				</div>
 
