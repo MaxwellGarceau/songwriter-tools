@@ -53,7 +53,7 @@ $allowed_file_types_string = implode( '|', $allowed_file_types_labels );
 	data-wp-interactive="<?php echo $store_namespace; ?>"
 	<?php echo $context; ?>
 >
-	<<?php echo $attributes['headingTag']; ?>><?php echo esc_html__( $attributes['headingContent'], 'songwriter-tools' ); ?></<?php echo $attributes['headingTag']; ?>>
+	<<?php echo $attributes['headingTag']; ?> <?php if ( isset( $attributes['headingFontSize'] ) ) { echo 'style="font-size:' . $attributes['headingFontSize'] . '"'; } ?>><?php echo esc_html__( $attributes['headingContent'], 'songwriter-tools' ); ?></<?php echo $attributes['headingTag']; ?>>
 
 	<form id="song-upload-form" class="song-upload-form wp-block-form" data-wp-on--submit="actions.uploadSong">
 		<div class="song-upload-form__column">
