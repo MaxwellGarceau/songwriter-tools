@@ -24,7 +24,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 
     const handleError = async (e) => {
         e.preventDefault();
-        setError(__('File uploads are not possible within the editor.', 'upload-block'));
+        setError(__('This feature is only usable on the front end of the website.', 'upload-block'));
     };
 
     const blockProps = useBlockProps({
@@ -95,7 +95,8 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
                     id="song-title"
                     value={songTitle}
                     onChange={(value) => setAttributes({ songTitle: value })}
-                    placeholder={__('Enter song title', 'upload-block')}
+                    placeholder={__('Enter song title (this is only editable on the front of the website)', 'upload-block')}
+                    disabled={true}
                 />
 
                 <label htmlFor="song-file" className="wp-block-form-input__label">
