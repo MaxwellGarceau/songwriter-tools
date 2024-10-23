@@ -1,0 +1,5 @@
+// TODO: Are there better WP defaults we could use here?
+:root {
+	--songwriter-tools--preset--color--success: #28a745;
+	--songwriter-tools--preset--color--error: var(--wp--preset--color--vivid-red, #dc3545);
+}
