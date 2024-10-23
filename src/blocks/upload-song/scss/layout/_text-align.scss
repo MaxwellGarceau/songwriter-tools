@@ -1,3 +1,7 @@
+/**
+ * Gutenberg align text setting
+ */
+
 @use '../variables' as v;
 
 .has-text-align-center {
@@ -16,6 +20,26 @@
 
         &__label {
             align-items: center;
+        }
+    }
+}
+
+.has-text-align-right {
+    .song-upload-form {
+        &__input-file-button,
+        &__submit-button-container {
+            justify-content: flex-end;
+        }
+
+        &__input-text,
+        &__label {
+            text-align: right;
+            margin: v.$songwriter-tools-small-spacing 0 0 auto;
+            max-width: 300px;
+        }
+
+        &__label {
+            align-items: flex-end;
         }
     }
 }
