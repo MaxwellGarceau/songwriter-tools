@@ -4,4 +4,8 @@
     &__label {
 		@include label.label-styles;
 	}
+
+	&__label-content {
+		@include label.label-content-styles;
+	}
 }

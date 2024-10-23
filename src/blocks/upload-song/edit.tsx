@@ -110,7 +110,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 			<div className="song-upload-form wp-block-form">
 				<div className="song-upload-form__column">
 					<label htmlFor="song-file" className="song-upload-form-input__label">
-						{maxFileSizeLabel}
+					<span className="song-upload-form__label-content wp-block-form-input__label-content">{maxFileSizeLabel}</span>
 					</label>
 					<input
 						className="song-upload-form__input song-upload-form__input--file"
@@ -123,7 +123,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 
 				<div className="song-upload-form__column">
 					<label htmlFor="song-title" className="song-upload-form-input__label">
-						{__('Song Title', 'upload-block')}
+					<span className="song-upload-form__label-content wp-block-form-input__label-content">{__('Song Title', 'upload-block')}</span>
 					</label>
 					<TextControl
 						id="song-title"

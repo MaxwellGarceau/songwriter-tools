@@ -30,7 +30,7 @@
 		}
 	
 		&__label-content {
-			font-weight: bold;
+			@include label.label-content-styles;
 		}
 
 		&-input__label {
