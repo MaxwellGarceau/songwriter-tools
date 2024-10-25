@@ -20,6 +20,7 @@ if ( ! is_user_logged_in() ) {
 
 // Generate a unique ID for the block.
 $unique_id = wp_unique_id( 'song-upload-' );
+$file_select_id = 'song-file-' . $unique_id;
 
 // TODO: Let's find a place to put a class constant or define for this
 $store_namespace = 'upload-block';
@@ -59,14 +60,15 @@ $allowed_file_types_string = implode( '|', $allowed_file_types_labels );
 		<form id="song-upload-form" class="song-upload-form wp-block-form" data-wp-on--submit="actions.uploadSong">
 			<div class="song-upload-form__column">
 				<span class="song-upload-form__label"><span class="song-upload-form__label-content">Allowed file types: <?php echo $allowed_file_types_string; ?> (max <?php echo $attributes['maxFileSize']; ?>MB)</span></span>
-				<label for="song-file" class="song-upload-form__input-file-button wp-block-button">
+				<label for="<?php echo $file_select_id; ?>" class="song-upload-form__input-file-button wp-block-button">
 					<span class="button button-primary wp-block-button__link wp-element-button">Select song</span>
 				</label>
 				<span class="song-upload-form__file-selected">No file chosen</span>
 				<input 
 					class="song-upload-form__input song-upload-form__input-file wp-block-form-input"
 					type="file" 
-					id="song-file" 
+					id="<?php echo $file_select_id; ?>" 
+					name="<?php echo $file_select_id; ?>"
 					accept="audio/*" 
 					required 
 					data-wp-on--change="actions.handleFileSelect" 
