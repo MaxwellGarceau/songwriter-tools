@@ -1,0 +1,10 @@
+.wp-block-songwriter-tools-upload-song {
+
+	// Fixes bug where other another wp-block-group 
+	// would cover our block
+	&.alignleft,
+	&.alignright {
+		position: relative;
+		z-index: 1;
+	}
+}
