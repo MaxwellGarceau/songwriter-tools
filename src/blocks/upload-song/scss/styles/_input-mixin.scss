@@ -1,7 +1,7 @@
 @use '../variables' as v;
 
 @mixin input-styles {
-	border: 1px solid var(--wp--preset--color--primary, v.$songwriter-tools-grey);
+	border: none; // Sometimes a WP theme will use an odd color for the border, so we'll just remove it.
 	border-radius: v.$songwriter-tools-border-radius;
 	outline: none;
 }
