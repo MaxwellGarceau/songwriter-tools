@@ -1,33 +1,33 @@
 {
-    "name": "maxgarceau/songwriter-tools",
-    "description": "Gutenberg blocks for songwriting related functionality",
-    "type": "library",
-    "autoload": {
-        "psr-4": {
-            "Max_Garceau\\Songwriter_Tools\\": "php/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Max Garceau",
-            "email": "maxwellgarceau@gmail.com"
-        }
-    ],
-    "require": {
-        "php-di/php-di": "^7.0",
-        "monolog/monolog": "^3.7"
-    },
-    "require-dev": {
-        "squizlabs/php_codesniffer": "^3.7",
-        "wp-coding-standards/wpcs": "^3.1"
-    },
-    "scripts": {
-        "sniff": "phpcs --standard=phpcs.xml.dist --extensions=php",
-        "lint": "phpcbf --standard=phpcs.xml.dist --extensions=php"
-    },
-    "config": {
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        }
-    }
+	"name": "maxgarceau/songwriter-tools",
+	"description": "Gutenberg blocks for songwriting related functionality",
+	"type": "library",
+	"autoload": {
+		"psr-4": {
+			"Max_Garceau\\Songwriter_Tools\\": "php/"
+		}
+	},
+	"authors": [
+		{
+			"name": "Max Garceau",
+			"email": "maxwellgarceau@gmail.com"
+		}
+	],
+	"require": {
+		"php-di/php-di": "^7.0",
+		"monolog/monolog": "^3.7"
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^3.7",
+		"wp-coding-standards/wpcs": "^3.1"
+	},
+	"scripts": {
+		"sniff": "phpcs --standard=phpcs.xml.dist --extensions=php",
+		"lint": "phpcbf --standard=phpcs.xml.dist --extensions=php"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
 }
