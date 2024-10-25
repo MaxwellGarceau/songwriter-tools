@@ -1,4 +1,12 @@
 # Developer readme
+
+## Install
+Navigate to the `/wp-content/plugins` directory
+- `git clone https://github.com/MaxwellGarceau/songwriter-tools.git`
+- `composer install`
+- `npm install`
+- `npm start` - Runs `wp-scripts start` - compiles TS and Scss
+
 Below are a list of some of the technical key points of this plugin.
 
 ### Backend
