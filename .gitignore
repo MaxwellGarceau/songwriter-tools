@@ -17,6 +17,9 @@ dist/
 *.css.map
 *.scss.map
 
+# This is the plugin zip file that wp-scripts generates
+upload-song.zip
+
 # TypeScript cache and output
 *.tsbuildinfo
 tsconfig.tsbuildinfo
