@@ -5,7 +5,7 @@ import { Context } from './types';
 import storeDef from '../view';
 import { Store } from './types';
 
-const { apiPath, storeNamespace } = configs;
+const { storeNamespace, apiNamespacePath } = configs;
 
 export function uploadSong( event: Event ): void {
 	event.preventDefault();
@@ -40,24 +40,17 @@ export function uploadSong( event: Event ): void {
 	formData.append( 'post_id', postId ? postId.toString() : null ); // Default to false, we have fallback in REST endpoint
 
 	// Send a POST request to the REST API to create the new post
-	fetch( `${ apiPath }/song`, {
-		method: 'POST',
-		headers: {
-			'X-WP-Nonce': state.nonce,
-		},
-		body: formData, // Send the FormData object
-	} )
-		.then( ( response ) => {
-			if ( ! response.ok ) {
-				return response
-					.json()
-					.then( ( { message = 'An unknown error occurred' } ) => {
-						throw new Error( `Error uploading song: ${ message }` );
-					} );
-			}
-			return response.json();
+	window.wp
+		.apiFetch( {
+			path: `${ apiNamespacePath }/song`,
+			method: 'POST',
+			headers: {
+				'X-WP-Nonce': state.nonce,
+			},
+			body: formData, // Send the FormData object
 		} )
 		.then( ( { success, message } ) => {
+			// Request succeeded - handle outcome
 			if ( success ) {
 				formHelper.setStatusMessage(
 					'Song uploaded successfully!',
@@ -69,6 +62,7 @@ export function uploadSong( event: Event ): void {
 			}
 		} )
 		.catch( ( { message } ) => {
+			// Server request failed
 			formHelper.setStatusMessage( message, 'error' );
 		} );
 }
