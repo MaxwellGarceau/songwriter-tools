@@ -1,4 +1,5 @@
-# Dev Notes
+# Developer readme
+Below are a list of some of the technical key points of this plugin.
 
 ### Backend
 
