@@ -33,7 +33,10 @@ function handleFileSelect(event: Event): void {
 
 	const fileInput = event.target as HTMLInputElement;
 	const file = fileInput?.files?.[0];
-	const fileSelectDisplay = document.querySelector('.song-upload-form__file-selected');
+
+	const fileSelectDisplay = fileInput
+		.closest('.song-upload-form') // Get relative parent to support pages with multiple blocks
+		?.querySelector('.song-upload-form__file-selected') as HTMLFormElement;
 
 	if (!file || !context.allowedFileTypes.includes(file.type)) {
 		setStatusMessage(`Allowed file types: ${context.allowedFileTypes.join('|')}`, 'error');
