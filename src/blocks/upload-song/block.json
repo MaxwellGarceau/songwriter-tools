@@ -43,13 +43,13 @@
 		"fontSize": {
 			"type": "string",
 			"default": "small"
-		  },
+		},
 		"allowedMimeTypes": {
 			"type": "array",
 			"items": {
 				"type": "string"
 			},
-			"default": ["audio/mpeg", "audio/wav"]
+			"default": [ "audio/mpeg", "audio/wav" ]
 		},
 		"maxFileSize": {
 			"type": "number",

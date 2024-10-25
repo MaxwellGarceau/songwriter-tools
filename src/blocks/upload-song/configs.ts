@@ -1,3 +1,3 @@
 export default {
-    apiPath: '/wp-json/songwriter-tools/v1',
-}
+	apiPath: '/wp-json/songwriter-tools/v1',
+};
