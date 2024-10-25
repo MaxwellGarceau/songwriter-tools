@@ -104,6 +104,7 @@ const SongUploadBlock: React.FC<SongUploadProps> = ({ attributes, setAttributes 
 					style={{ fontSize: headingFontSize ? `${headingFontSize}` : undefined }}
 					onChange={(value) => setAttributes({ headingContent: value })}
 					placeholder={__('Enter heading...', 'upload-block')}
+					className="song-upload-form__heading"
 				/>
 
 				{error && <Notice status="error" onRemove={() => setError(null)}>{error}</Notice>}

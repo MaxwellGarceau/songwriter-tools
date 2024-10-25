@@ -5,6 +5,9 @@
 @forward 'layout/text-align';
 @forward 'layout/align';
 
+// Gutenberg typography specifics
+@forward 'color/text-color';
+
 // Components - primarily styles
 @forward 'input';
 @forward 'label';

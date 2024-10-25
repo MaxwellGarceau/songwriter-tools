@@ -1,0 +1,11 @@
+// When a color is selected in the Gutenberg editor
+.wp-block-songwriter-tools-upload-song.has-text-color {
+	.song-upload-form {
+
+		// Pick up parent .wp-block-songwriter-tools-upload-song
+		// color only when there is a custom color from the typography panel
+		&__heading {
+			color: inherit;
+		}
+	}
+}
