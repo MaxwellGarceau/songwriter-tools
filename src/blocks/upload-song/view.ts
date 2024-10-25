@@ -129,7 +129,7 @@ function clearForm(form: HTMLFormElement): void {
 
 // Helper function to show status messages
 function setStatusMessage(message: string, status: 'success' | 'error', form: HTMLFormElement): void {
-	const messageElement = form.closest('#wp-block-songwriter-tools-upload-song')?.querySelector('#song-upload-message') as HTMLElement;
+	const messageElement = form.closest('.wp-block-songwriter-tools-upload-song')?.querySelector('#song-upload-message') as HTMLElement;
 	if (messageElement) {
 		messageElement.textContent = message;
 		messageElement.style.color = status === 'error' ? 'var(--songwriter-tools--preset--color--error)' : 'var(--songwriter-tools--preset--color--success)';
