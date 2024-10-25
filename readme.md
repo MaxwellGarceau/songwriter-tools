@@ -7,7 +7,7 @@
 - WP Core 6.6 or higher
 - (Recommendation) Permalinks not set to "plain"
 
-### Instructions
+### Instructions (if setting up for development)
 Navigate to the `/wp-content/plugins` directory
 - `git clone https://github.com/MaxwellGarceau/songwriter-tools.git`
 - `composer install`
