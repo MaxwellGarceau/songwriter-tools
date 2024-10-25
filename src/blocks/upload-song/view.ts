@@ -34,19 +34,18 @@ function handleFileSelect(event: Event): void {
 	const fileInput = event.target as HTMLInputElement;
 	const file = fileInput?.files?.[0];
 
-	const fileSelectDisplay = fileInput
-		.closest('.song-upload-form') // Get relative parent to support pages with multiple blocks
-		?.querySelector('.song-upload-form__file-selected') as HTMLFormElement;
+	const form = fileInput.closest('.song-upload-form') as HTMLFormElement;
+	const fileSelectDisplay = form?.querySelector('.song-upload-form__file-selected') as HTMLFormElement
 
 	if (!file || !context.allowedFileTypes.includes(file.type)) {
-		setStatusMessage(`Allowed file types: ${context.allowedFileTypes.join('|')}`, 'error');
+		setStatusMessage(`Allowed file types: ${context.allowedFileTypes.join('|')}`, 'error', form);
 		fileInput.value = '';  // Reset the file input
 		fileSelectDisplay.textContent = 'No file chosen';
 		return;
 	}
 
 	if (getSizeInMb(file.size) > context.maxFileSize) {
-		setStatusMessage(`Allowed file size: ${context.maxFileSize}MB`, 'error');
+		setStatusMessage(`Allowed file size: ${context.maxFileSize}MB`, 'error', form);
 		fileInput.value = '';  // Reset the file input
 		fileSelectDisplay.textContent = 'No file chosen';
 		return;
@@ -62,18 +61,19 @@ function handleFileSelect(event: Event): void {
 // This function will handle the form submission and song upload
 function uploadSong(event: Event): void {
 	event.preventDefault();
-
 	const { fileSelected, postId } = getContext<Context>();
-	const titleInput = document.getElementById('song-title') as HTMLInputElement;
+
+	const form = event.target as HTMLFormElement;
+	const titleInput = form.querySelector('#song-title') as HTMLInputElement;
 
 	if (!fileSelected || !titleInput?.value) {
-		setStatusMessage('Please select a file and provide a song title.', 'error');
+		setStatusMessage('Please select a file and provide a song title.', 'error', form);
 		return;
 	}
 
 	// Create a FormData object to send the actual file
 	const formData = new FormData();
-	const fileInput = document.querySelector('.song-upload-form__input-file') as HTMLInputElement;
+	const fileInput = form.querySelector('.song-upload-form__input-file') as HTMLInputElement;
 	const file = fileInput.files?.[0];
 
 	// Add form fields
@@ -105,29 +105,29 @@ function uploadSong(event: Event): void {
 		.then(({ success, message }) => {
 			// Check if song upload was successful
 			if (success) {
-				setStatusMessage('Song uploaded successfully!', 'success');
-				clearForm();
+				setStatusMessage('Song uploaded successfully!', 'success', form);
+				clearForm(form);
 			} else {
-				setStatusMessage(message, 'error');
+				setStatusMessage(message, 'error', form);
 			}
 		})
 		.catch(({ message }) => {
 			// Catch any error thrown (including those from non-OK responses)
-			setStatusMessage(message, 'error');
+			setStatusMessage(message, 'error', form);
 		});
 }
 
-function clearForm(): void {
-	const titleInput = document.getElementById('song-title') as HTMLInputElement;
-	const fileInput = document.querySelector('.song-upload-form__input-file') as HTMLInputElement;
+function clearForm(form: HTMLFormElement): void {
+	const titleInput = form.querySelector('#song-title') as HTMLInputElement;
+	const fileInput = form.querySelector('.song-upload-form__input-file') as HTMLInputElement;
 
 	titleInput.value = '';
 	fileInput.value = '';
 }
 
 // Helper function to show status messages
-function setStatusMessage(message: string, status: 'success' | 'error'): void {
-	const messageElement = document.getElementById('song-upload-message');
+function setStatusMessage(message: string, status: 'success' | 'error', form: HTMLFormElement): void {
+	const messageElement = form.closest('#wp-block-songwriter-tools-upload-song')?.querySelector('#song-upload-message') as HTMLElement;
 	if (messageElement) {
 		messageElement.textContent = message;
 		messageElement.style.color = status === 'error' ? 'var(--songwriter-tools--preset--color--error)' : 'var(--songwriter-tools--preset--color--success)';
