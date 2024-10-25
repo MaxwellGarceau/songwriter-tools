@@ -1,5 +1,5 @@
 import { getContext, store } from '@wordpress/interactivity';
-import { clearForm, setStatusMessage } from './utils';
+import FormHelper from './formHelper';
 import configs from './configs';
 import { Context } from './types';
 import storeDef from '../view';
@@ -14,13 +14,15 @@ export function uploadSong( event: Event ): void {
 	const { fileSelected, postId } = getContext< Context >();
 
 	const form = event.target as HTMLFormElement;
+
+	const formHelper = new FormHelper( form );
+
 	const titleInput = form.querySelector( '#song-title' ) as HTMLInputElement;
 
 	if ( ! fileSelected || ! titleInput?.value ) {
-		setStatusMessage(
+		formHelper.setStatusMessage(
 			'Please select a file and provide a song title.',
-			'error',
-			form
+			'error'
 		);
 		return;
 	}
@@ -57,17 +59,16 @@ export function uploadSong( event: Event ): void {
 		} )
 		.then( ( { success, message } ) => {
 			if ( success ) {
-				setStatusMessage(
+				formHelper.setStatusMessage(
 					'Song uploaded successfully!',
-					'success',
-					form
+					'success'
 				);
-				clearForm( form );
+				formHelper.clearForm();
 			} else {
-				setStatusMessage( message, 'error', form );
+				formHelper.setStatusMessage( message, 'error' );
 			}
 		} )
 		.catch( ( { message } ) => {
-			setStatusMessage( message, 'error', form );
+			formHelper.setStatusMessage( message, 'error' );
 		} );
 }
