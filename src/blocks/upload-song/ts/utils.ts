@@ -16,6 +16,14 @@ export function setStatusMessage(
 	}
 }
 
+/**
+ * Wrap setStatusMessage to avoid duplicating functionality
+ * but create different function for better api
+ */
+export function clearStatusMessage( form: HTMLFormElement ): void {
+	setStatusMessage( '', 'success', form );
+}
+
 // Helper function to clear the form
 export function clearForm( form: HTMLFormElement ): void {
 	const titleInput = form.querySelector( '#song-title' ) as HTMLInputElement;

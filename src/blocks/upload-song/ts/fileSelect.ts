@@ -1,5 +1,5 @@
 import { getContext } from '@wordpress/interactivity';
-import { setStatusMessage } from './utils';
+import { setStatusMessage, clearStatusMessage } from './utils';
 import { validateFile } from './validation';
 import { Context } from './types';
 
@@ -26,6 +26,9 @@ export function handleFileSelect( event: Event ): void {
 		fileSelectDisplay.textContent = 'No file chosen';
 		return;
 	}
+
+	// Clear any previous status messages
+	clearStatusMessage( form );
 
 	// Set the selected file name in the UI
 	fileSelectDisplay.textContent = file.name;
