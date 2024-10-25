@@ -5,6 +5,7 @@ export {};
 declare global {
 	interface Window {
 		wp: {
+			apiFetch: ( options: any ) => Promise< any >;
 			interactivity: {
 				setContext: ( key: string, value: any ) => void;
 				getContext: ( key: string ) => any;

@@ -5,6 +5,7 @@
 ### Requirements
 - PHP 8.1.0 or higher
 - WP Core 6.6 or higher
+- Permalinks not set to "plain"
 
 ### Instructions
 Navigate to the `/wp-content/plugins` directory
