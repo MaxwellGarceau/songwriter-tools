@@ -1,3 +1,10 @@
+/**
+ * Types local to Upload Song block
+ * 
+ * TODO: Should we combine these with the global types
+ * in /types/global.d.ts?
+ */
+
 // Type for server-side state
 export type ServerState = {
 	state: {
