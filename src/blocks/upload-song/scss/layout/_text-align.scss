@@ -33,7 +33,9 @@
         &__input-text,
         &__label {
             text-align: right;
-            margin: v.$songwriter-tools-small-spacing 0 0 auto;
+
+			// Prevents text input from wrapping to the left
+            margin: v.$songwriter-tools-small-spacing 0 v.$songwriter-tools-small-spacing auto;
         }
 
         &__label {
