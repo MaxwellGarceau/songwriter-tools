@@ -1,6 +1,12 @@
 # Developer readme
 
 ## Install
+
+### Requirements
+- PHP 8.1.0 or higher
+- WP Core 6.6 or higher
+
+### Instructions
 Navigate to the `/wp-content/plugins` directory
 - `git clone https://github.com/MaxwellGarceau/songwriter-tools.git`
 - `composer install`
