@@ -120,9 +120,11 @@ function uploadSong(event: Event): void {
 function clearForm(form: HTMLFormElement): void {
 	const titleInput = form.querySelector('#song-title') as HTMLInputElement;
 	const fileInput = form.querySelector('.song-upload-form__input-file') as HTMLInputElement;
+	const fileInputDisplay = form.querySelector('.song-upload-form__file-selected') as HTMLElement;
 
 	titleInput.value = '';
 	fileInput.value = '';
+	fileInputDisplay.textContent = 'No file chosen';
 }
 
 // Helper function to show status messages
